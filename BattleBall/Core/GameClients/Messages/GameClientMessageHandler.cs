@@ -5,6 +5,7 @@ namespace BattleBall.Core.GameClients.Messages
 {
     class GameClientMessageHandler
     {
+        #region Fields
         private GameClient Session;
         private ClientMessage Request;
 
@@ -12,14 +13,18 @@ namespace BattleBall.Core.GameClients.Messages
         private RequestHandler[] RequestHandlers;
 
         private const int HIGHEST_MESSAGE_ID = 10;
+        #endregion
 
+        #region Constructor
         internal GameClientMessageHandler(GameClient Session)
         {
             this.Session = Session;
             this.RequestHandlers = new RequestHandler[HIGHEST_MESSAGE_ID];
             RegisterRequests();
         }
+        #endregion
 
+        #region Methods
         internal void RequestMap()
         {
             Logging.WriteLine("Sending map to " + Session.ToString(), System.ConsoleColor.Green);
@@ -65,5 +70,6 @@ namespace BattleBall.Core.GameClients.Messages
             RequestHandlers[ClientOpCodes.REQUEST_MAP] = RequestMap;
             RequestHandlers[ClientOpCodes.LOGIN] = Login;
         }
+        #endregion
     }
 }
