@@ -1,0 +1,18 @@
+c:\users\jose\documents\visual studio 2015\Projects\BattleBall\BattleBall\bin\Debug\BattleBall.exe.config
+c:\users\jose\documents\visual studio 2015\Projects\BattleBall\BattleBall\bin\Debug\BattleBall.exe
+c:\users\jose\documents\visual studio 2015\Projects\BattleBall\BattleBall\bin\Debug\BattleBall.pdb
+c:\users\jose\documents\visual studio 2015\Projects\BattleBall\BattleBall\bin\Debug\Astar.dll
+c:\users\jose\documents\visual studio 2015\Projects\BattleBall\BattleBall\bin\Debug\Astar.pdb
+c:\users\jose\documents\visual studio 2015\Projects\BattleBall\BattleBall\obj\Debug\BattleBall.csprojResolveAssemblyReference.cache
+c:\users\jose\documents\visual studio 2015\Projects\BattleBall\BattleBall\obj\Debug\BattleBall.exe
+c:\users\jose\documents\visual studio 2015\Projects\BattleBall\BattleBall\obj\Debug\BattleBall.pdb
+C:\Users\José\Desktop\Tile\BattleBall\BattleBall\bin\Debug\BattleBall.exe.config
+C:\Users\José\Desktop\Tile\BattleBall\BattleBall\bin\Debug\BattleBall.exe
+C:\Users\José\Desktop\Tile\BattleBall\BattleBall\bin\Debug\BattleBall.pdb
+C:\Users\José\Desktop\Tile\BattleBall\BattleBall\bin\Debug\Astar.dll
+C:\Users\José\Desktop\Tile\BattleBall\BattleBall\bin\Debug\Astar.pdb
+C:\Users\José\Desktop\Tile\BattleBall\BattleBall\obj\Debug\BattleBall.csprojResolveAssemblyReference.cache
+C:\Users\José\Desktop\Tile\BattleBall\BattleBall\obj\Debug\BattleBall.exe
+C:\Users\José\Desktop\Tile\BattleBall\BattleBall\obj\Debug\BattleBall.pdb
+C:\Users\José\Desktop\Tile\BattleBall\BattleBall\bin\Debug\Fleck.dll
+C:\Users\José\Desktop\Tile\BattleBall\BattleBall\bin\Debug\Fleck.pdb

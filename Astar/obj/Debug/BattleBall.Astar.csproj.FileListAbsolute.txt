@@ -1,0 +1,10 @@
+c:\users\jose\documents\visual studio 2015\Projects\BattleBall\Astar\obj\Debug\BattleBall.Astar.csprojResolveAssemblyReference.cache
+c:\users\jose\documents\visual studio 2015\Projects\BattleBall\Astar\bin\Debug\Astar.dll
+c:\users\jose\documents\visual studio 2015\Projects\BattleBall\Astar\bin\Debug\Astar.pdb
+c:\users\jose\documents\visual studio 2015\Projects\BattleBall\Astar\obj\Debug\Astar.dll
+c:\users\jose\documents\visual studio 2015\Projects\BattleBall\Astar\obj\Debug\Astar.pdb
+C:\Users\José\Desktop\Tile\BattleBall\Astar\bin\Debug\Astar.dll
+C:\Users\José\Desktop\Tile\BattleBall\Astar\bin\Debug\Astar.pdb
+C:\Users\José\Desktop\Tile\BattleBall\Astar\obj\Debug\BattleBall.AStar.csprojResolveAssemblyReference.cache
+C:\Users\José\Desktop\Tile\BattleBall\Astar\obj\Debug\Astar.dll
+C:\Users\José\Desktop\Tile\BattleBall\Astar\obj\Debug\Astar.pdb
