@@ -5,14 +5,14 @@ using System.Drawing;
 
 namespace BattleBall.Core.Rooms
 {
-    class GameMap : IPathNode
+    class Room : IPathNode
     {
         #region Fields
         private int[,] playerMatrix;
         private int[,] gameMatrix;
-        private List<Player> players;
+        private List<RoomUser> players;
         private readonly int maxX, maxY;
-        private AStarSolver<GameMap> astarSolver;
+        private AStarSolver<Room> astarSolver;
 
         public int[,] GameMatrix
         {
@@ -45,7 +45,9 @@ namespace BattleBall.Core.Rooms
             }
         }
 
-        internal void AddPlayer(Player player)
+        internal List<RoomUser> Players { get => players; set => players = value; }
+
+        internal void AddPlayer(RoomUser player)
         {
             if (!players.Contains(player))
             {
@@ -53,17 +55,26 @@ namespace BattleBall.Core.Rooms
             }
             this.PlayerMatrix[player.X, player.Y] = player.Id;
         }
+
+        internal void MovePlayersTo(int x, int y)
+        {
+            foreach (var Player in Players)
+            {
+                Player.X = x;
+                Player.Y = y;
+            }
+        }
         #endregion
 
         #region Constructor
-        public GameMap(int maxX, int maxY)
+        public Room(int maxX, int maxY)
         {
             this.maxX = maxX;
             this.maxY = maxY;
             this.playerMatrix = new int[maxX, maxY];
             this.gameMatrix = new int[maxX, maxY];
-            this.players = new List<Player>();
-            this.astarSolver = new AStarSolver<GameMap>(false, AStarHeuristicType.ExperimentalSearch, this, maxX, maxY);
+            this.players = new List<RoomUser>();
+            this.astarSolver = new AStarSolver<Room>(false, AStarHeuristicType.ExperimentalSearch, this, maxX, maxY);
         }
         #endregion
 
@@ -71,21 +82,21 @@ namespace BattleBall.Core.Rooms
         internal void OnCycle()
         {
             Console.WriteLine("OnCyle()");
-            foreach (Player player in players)
+            foreach (RoomUser player in players)
             {
                 if (player.PathRecalcNeeded)
                 {
                     Console.WriteLine(player.Id + "'s needs recalc...");
                     Point start = new Point(player.X, player.Y);
                     Point end = new Point(player.TargetX, player.TargetY);
-                    LinkedList<AStarSolver<GameMap>.PathNode> path = astarSolver.Search(end, start);
+                    LinkedList<AStarSolver<Room>.PathNode> path = astarSolver.Search(end, start);
 
                     player.Path.Clear();
 
                     if (path != null)
                     {
                         path.RemoveFirst();
-                        foreach (AStarSolver<GameMap>.PathNode node in path)
+                        foreach (AStarSolver<Room>.PathNode node in path)
                         {
                             player.Path.AddLast(new Point(node.X, node.Y));
                         }
@@ -139,12 +150,12 @@ namespace BattleBall.Core.Rooms
             return !ValidTile(x, y) || PlayerMatrix[x, y] != 0;
         }
 
-        internal void OnPlayerWalksOnTile(Player player, int x, int y)
+        internal void OnPlayerWalksOnTile(RoomUser player, int x, int y)
         {
             gameMatrix[x, y] = (int)player.Team;
         }
 
-        internal void OnPlayerWalksOffTile(Player player, int x, int y)
+        internal void OnPlayerWalksOffTile(RoomUser player, int x, int y)
         {
 
         }

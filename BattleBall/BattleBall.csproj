@@ -52,11 +52,11 @@
     <Compile Include="Core\GameClients\Messages\GameClientMessageHandler.cs" />
     <Compile Include="Core\GameClients\Messages\ServerMessage.cs" />
     <Compile Include="Core\GameClients\OpCodes.cs" />
-    <Compile Include="Core\Rooms\GameMap.cs" />
+    <Compile Include="Core\Rooms\Room.cs" />
     <Compile Include="Core\Rooms\MapModel.cs" />
     <Compile Include="Core\User.cs" />
     <Compile Include="Misc\Logging.cs" />
-    <Compile Include="Core\Rooms\Player.cs" />
+    <Compile Include="Core\Rooms\RoomUser.cs" />
     <Compile Include="Net\ConnectionManager.cs" />
     <Compile Include="Net\ISocketHandler.cs" />
     <Compile Include="Program.cs" />

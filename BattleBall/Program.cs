@@ -16,7 +16,7 @@ namespace BattleBall
                 return '2';
             return '-';
         }
-        static void ShowMap(GameMap map)
+        static void ShowMap(Room map)
         {
             for (int j = 0; j < map.MaxY; j++)
             {
@@ -39,8 +39,8 @@ namespace BattleBall
 
         static void StartGame()
         {
-            Player player1 = new Player(1, 1, 2);
-            Player player2 = new Player(2, 1, 1);
+            RoomUser player1 = new RoomUser(1, 1, 2);
+            RoomUser player2 = new RoomUser(2, 1, 1);
 
             player1.Team = Team.Blue;
             player2.Team = Team.Red;
@@ -48,7 +48,7 @@ namespace BattleBall
             player1.MoveTo(5, 4);
             player2.MoveTo(0, 0);
 
-            GameMap map = new GameMap(6, 6);
+            Room map = new Room(6, 6);
             map.AddPlayer(player1);
             map.AddPlayer(player2);
 

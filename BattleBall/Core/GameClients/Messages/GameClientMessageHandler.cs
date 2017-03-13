@@ -1,5 +1,6 @@
 ﻿using System;
 using BattleBall.Misc;
+using BattleBall.Core.Rooms;
 
 namespace BattleBall.Core.GameClients.Messages
 {
@@ -25,25 +26,67 @@ namespace BattleBall.Core.GameClients.Messages
         #endregion
 
         #region Methods
+        internal void RequestPlayers()
+        {
+            Logging.WriteLine("Sending players to " + Session.User.Username, ConsoleColor.Green);
+
+            RoomUser roomUser = new RoomUser(Session.User.Id, 4, 7);
+
+            BattleEnvironment.Game.Room.AddPlayer(roomUser);
+
+            ServerMessage response = new ServerMessage(ServerOpCodes.PLAYERS_DATA);
+            response.AppendInt(BattleEnvironment.Game.Room.Players.Count);
+
+            foreach (var Player in BattleEnvironment.Game.Room.Players)
+            {
+                response.AppendInt(Player.X);
+                response.AppendInt(Player.Y);
+            }
+
+            Session.SendMessage(response);
+        }
         internal void RequestMap()
         {
-            Logging.WriteLine("Sending map to " + Session.ToString(), System.ConsoleColor.Green);
+            Logging.WriteLine("Sending map to " + Session.User.Username, ConsoleColor.Green);
             ServerMessage response = new ServerMessage(ServerOpCodes.MAP_DATA);
 
-            response.AppendInt(BattleEnvironment.Game.MapModel.Width);
-            response.AppendInt(BattleEnvironment.Game.MapModel.Height);
+            MapModel model = BattleEnvironment.Game.MapModel;
 
+            response.AppendInt(model.Width);
+            response.AppendInt(model.Height);
+            response.AppendInt(model.TSize);
 
+            response.AppendInt(model.Layers.Length); //num of layers
 
+            for (int i = 0; i < model.Layers.Length; i++)
+            {
+                for (int j = 0; j < model.Width; j++)
+                {
+                    for (int k = 0; k < model.Height; k++)
+                    {
+                        response.AppendInt(model.Layers[i][j][k]);
+                    }
+                }
+            }
             Session.SendMessage(response);
         }
 
         internal void Login()
         {
             string username = Request.PopString();
-            Logging.WriteLine(username + " has logged in!", ConsoleColor.Green);
+            string look = Request.PopString();
 
-            Session.SendMessage(new ServerMessage(ServerOpCodes.LOGIN_OK));
+            if (Session.User == null)
+            {
+                Session.User = new User(0, username, look, Session);
+                Logging.WriteLine(username + " has logged in!", ConsoleColor.Green);
+
+                Session.SendMessage(new ServerMessage(ServerOpCodes.LOGIN_OK));
+            }
+            else
+            {
+                Logging.WriteLine("Client already logged!", ConsoleColor.Red);
+            }
         }
 
         internal void HandleMessage(ClientMessage Message)
@@ -69,6 +112,7 @@ namespace BattleBall.Core.GameClients.Messages
         {
             RequestHandlers[ClientOpCodes.REQUEST_MAP] = RequestMap;
             RequestHandlers[ClientOpCodes.LOGIN] = Login;
+            RequestHandlers[ClientOpCodes.REQUEST_PLAYERS] = RequestPlayers;
         }
         #endregion
     }

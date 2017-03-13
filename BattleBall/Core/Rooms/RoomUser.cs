@@ -3,7 +3,7 @@ using System.Drawing;
 
 namespace BattleBall.Core.Rooms
 {
-    class Player
+    class RoomUser
     {
         private int id;
         private int x, y;
@@ -104,7 +104,7 @@ namespace BattleBall.Core.Rooms
             }
         }
 
-        public Player(int id, int x, int y)
+        public RoomUser(int id, int x, int y)
         {
             this.Id = id;
             this.X = x;

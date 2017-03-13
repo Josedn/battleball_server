@@ -20,7 +20,8 @@ namespace BattleBall
             while (true)
             {
                 command = Console.ReadLine();
-                switch (command)
+                string[] args = command.Split(' ');
+                switch (args[0])
                 {
                     case "exit":
                         {
@@ -30,6 +31,14 @@ namespace BattleBall
                     default:
                         {
                             Logging.WriteLine("Invalid command", ConsoleColor.Red);
+                            break;
+                        }
+                    case "move":
+                        {
+                            int x = int.Parse(args[1]);
+                            int y = int.Parse(args[2]); 
+                            game.Room.MovePlayersTo(x, y);
+
                             break;
                         }
                 }

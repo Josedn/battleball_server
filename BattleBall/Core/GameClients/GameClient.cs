@@ -9,11 +9,13 @@ namespace BattleBall.Core.GameClients
     {
         private IWebSocketConnection Connection;
         private GameClientMessageHandler MessageHandler;
+        internal User User;
 
         internal GameClient(IWebSocketConnection Connection)
         {
             this.Connection = Connection;
             this.MessageHandler = new GameClientMessageHandler(this);
+            this.User = null;
         }
 
         internal void HandleMessage(string RawMessage)
@@ -23,6 +25,20 @@ namespace BattleBall.Core.GameClients
             Logging.WriteLine("Id: '" + Message.Id + "'", ConsoleColor.Cyan);
 
             this.MessageHandler.HandleMessage(Message);
+        }
+
+        internal void BroadcastMovement()
+        {
+            ServerMessage response = new ServerMessage(ServerOpCodes.PLAYERS_DATA);
+            response.AppendInt(BattleEnvironment.Game.Room.Players.Count);
+
+            foreach (var Player in BattleEnvironment.Game.Room.Players)
+            {
+                response.AppendInt(Player.X);
+                response.AppendInt(Player.Y);
+            }
+
+            SendMessage(response);
         }
 
         internal void SendMessage(ServerMessage Message)

@@ -7,7 +7,7 @@ namespace BattleBall.Core
     internal class Game
     {
         #region Fields
-        private GameMap Map;
+        public Room Room;
         private ConnectionManager connectionManager;
         private GameClientManager clientManager;
         private MapModel mapModel;
@@ -26,7 +26,7 @@ namespace BattleBall.Core
             this.connectionManager = new ConnectionManager(clientManager);
 
             this.mapModel = new MapModel();
-            this.Map = new GameMap(mapModel.Width, mapModel.Height);
+            this.Room = new Room(mapModel.Width, mapModel.Height);
         }
         #endregion
 

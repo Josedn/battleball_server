@@ -18,14 +18,25 @@ namespace BattleBall.Core.GameClients
 
         public void HandleDisconnect(IWebSocketConnection socket)
         {
-            // ?
+            lock (this.Clients)
+            {
+                this.Clients.Remove(socket);
+            }
+            Logging.WriteLine("Client disconnected", ConsoleColor.Red);
         }
 
         public void HandleMessage(IWebSocketConnection socket, string message)
         {
-            if (Clients[socket] != null)
+            try
             {
-                Clients[socket].HandleMessage(message); 
+                lock (this.Clients)
+                {
+                    this.Clients[socket].HandleMessage(message);
+                }                    
+            }
+            catch (KeyNotFoundException)
+            {
+                Logging.WriteLine("Client key not found", ConsoleColor.Red);
             }
         }
 
@@ -35,6 +46,14 @@ namespace BattleBall.Core.GameClients
             lock (this.Clients)
             {
                 Clients.Add(socket, new GameClient(socket));
+            }
+        }
+
+        public void BroadcastMessage(ServerMessage Message)
+        {
+            foreach (GameClient client in Clients.Values)
+            {
+                client.SendMessage(Message);
             }
         }
     }

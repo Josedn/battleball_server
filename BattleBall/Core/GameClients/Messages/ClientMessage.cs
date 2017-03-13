@@ -39,6 +39,20 @@ namespace BattleBall.Core.GameClients.Messages
             }
             return null;
         }
-
+        internal int PopInt()
+        {
+            try
+            {
+                return int.Parse(PopString());
+            }
+            catch (NullReferenceException e)
+            {
+                throw e;
+            }
+            catch (ArgumentException e)
+            {
+                throw e;
+            }
+        }
     }
 }
