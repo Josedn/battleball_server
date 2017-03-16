@@ -83,6 +83,7 @@ namespace BattleBall.Core.GameClients.Messages
             else
             {
                 Logging.WriteLine("Client already logged!", ConsoleColor.Red);
+                Session.Stop();
             }
         }
 

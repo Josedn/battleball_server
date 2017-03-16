@@ -12,6 +12,7 @@ namespace BattleBall.Net
             FleckLog.Level = LogLevel.Warn;
             this.server = new WebSocketServer("ws://0.0.0.0:" + Port);
             this.messageHandler = MessageHandler;
+            
             server.Start(socket =>
             {
                 socket.OnOpen = () =>
