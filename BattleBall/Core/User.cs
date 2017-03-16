@@ -1,5 +1,7 @@
-﻿using BattleBall.Core.GameClients;
+﻿using System;
+using BattleBall.Core.GameClients;
 using BattleBall.Core.Rooms;
+using BattleBall.Misc;
 
 namespace BattleBall.Core
 {
@@ -11,6 +13,7 @@ namespace BattleBall.Core
         private string look;
         private GameClient session;
         private Room currentRoom;
+        private bool disconnected;
         #endregion
 
         #region Return values
@@ -28,7 +31,20 @@ namespace BattleBall.Core
             this.username = username;
             this.look = look;
             this.session = session;
+            this.disconnected = false;
         }
-        #endregion 
+        #endregion
+
+        internal void OnDisconnect()
+        {
+            if (disconnected)
+                return;
+
+            Logging.WriteLine(Username + " has logged out", ConsoleColor.Red);
+            if (CurrentRoom != null)
+            {
+                CurrentRoom.RemoveUserFromRoom(Session);
+            }
+        }
     }
 }

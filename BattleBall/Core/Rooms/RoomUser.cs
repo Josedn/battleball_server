@@ -5,7 +5,7 @@ namespace BattleBall.Core.Rooms
 {
     class RoomUser
     {
-        private int id;
+        private int userId;
         private int x, y;
         private int targetX, targetY;
         private bool isMoving;
@@ -13,16 +13,18 @@ namespace BattleBall.Core.Rooms
         public Team Team { get; set; }
         public LinkedList<Point> Path { get; set; }
 
-        public int Id
+        internal User User;
+
+        public int UserId
         {
             get
             {
-                return id;
+                return userId;
             }
 
             set
             {
-                id = value;
+                userId = value;
             }
         }
 
@@ -104,9 +106,10 @@ namespace BattleBall.Core.Rooms
             }
         }
 
-        public RoomUser(int id, int x, int y)
+
+        public RoomUser(int userId, int x, int y, User user)
         {
-            this.Id = id;
+            this.UserId = userId;
             this.X = x;
             this.Y = y;
             this.TargetX = x;
@@ -115,6 +118,7 @@ namespace BattleBall.Core.Rooms
             this.PathRecalcNeeded = false;
             this.Path = new LinkedList<Point>();
             this.Team = Team.None;
+            this.User = user;
         }
 
         public void MoveTo(int x, int y)

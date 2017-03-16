@@ -14,6 +14,8 @@ namespace BattleBall.Core.GameClients.Messages
         private RequestHandler[] RequestHandlers;
 
         private const int HIGHEST_MESSAGE_ID = 10;
+
+        private static int NextId = 0;
         #endregion
 
         #region Constructor
@@ -30,20 +32,6 @@ namespace BattleBall.Core.GameClients.Messages
         {
             Logging.WriteLine("Sending players to " + Session.User.Username, ConsoleColor.Green);
 
-            RoomUser roomUser = new RoomUser(Session.User.Id, 4, 7);
-
-            BattleEnvironment.Game.Room.AddPlayer(roomUser);
-
-            ServerMessage response = new ServerMessage(ServerOpCodes.PLAYERS_DATA);
-            response.AppendInt(BattleEnvironment.Game.Room.Players.Count);
-
-            foreach (var Player in BattleEnvironment.Game.Room.Players)
-            {
-                response.AppendInt(Player.X);
-                response.AppendInt(Player.Y);
-            }
-
-            Session.SendMessage(response);
         }
         internal void RequestMap()
         {
@@ -69,6 +57,15 @@ namespace BattleBall.Core.GameClients.Messages
                 }
             }
             Session.SendMessage(response);
+
+            BattleEnvironment.Game.Room.AddPlayerToRoom(Session);
+        }
+
+        internal void Destroy()
+        {
+            Session = null;
+            RequestHandlers = null;
+            Request = null;
         }
 
         internal void Login()
@@ -78,8 +75,8 @@ namespace BattleBall.Core.GameClients.Messages
 
             if (Session.User == null)
             {
-                Session.User = new User(0, username, look, Session);
-                Logging.WriteLine(username + " has logged in!", ConsoleColor.Green);
+                Session.User = new User(NextId++, username, look, Session);
+                Logging.WriteLine(username + " (" + Session.User.Id + ") has logged in!", ConsoleColor.Green);
 
                 Session.SendMessage(new ServerMessage(ServerOpCodes.LOGIN_OK));
             }
@@ -87,6 +84,17 @@ namespace BattleBall.Core.GameClients.Messages
             {
                 Logging.WriteLine("Client already logged!", ConsoleColor.Red);
             }
+        }
+
+        internal void RequestMovement()
+        {
+            int x = Request.PopInt();
+            int y = Request.PopInt();
+
+            RoomUser user = Session.User.CurrentRoom.GetRoomUserByUserId(Session.User.Id);
+            user.MoveTo(x, y);
+
+            Logging.WriteLine(Session.User.Username + " wants to move to " + x + ", " + y, ConsoleColor.Yellow);
         }
 
         internal void HandleMessage(ClientMessage Message)
@@ -113,6 +121,7 @@ namespace BattleBall.Core.GameClients.Messages
             RequestHandlers[ClientOpCodes.REQUEST_MAP] = RequestMap;
             RequestHandlers[ClientOpCodes.LOGIN] = Login;
             RequestHandlers[ClientOpCodes.REQUEST_PLAYERS] = RequestPlayers;
+            RequestHandlers[ClientOpCodes.REQUEST_MOVEMENT] = RequestMovement;
         }
         #endregion
     }

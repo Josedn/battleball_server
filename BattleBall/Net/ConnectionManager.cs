@@ -1,7 +1,4 @@
 ﻿using Fleck;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace BattleBall.Net
 {
@@ -12,7 +9,7 @@ namespace BattleBall.Net
 
         internal ConnectionManager(ISocketHandler MessageHandler, int Port = 8181)
         {
-            FleckLog.Level = LogLevel.Debug;
+            FleckLog.Level = LogLevel.Warn;
             this.server = new WebSocketServer("ws://0.0.0.0:" + Port);
             this.messageHandler = MessageHandler;
             server.Start(socket =>

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using BattleBall.AStar.Algorithm;
 using System.Drawing;
+using BattleBall.Core.GameClients;
+using BattleBall.Core.GameClients.Messages;
 
 namespace BattleBall.Core.Rooms
 {
@@ -10,7 +12,8 @@ namespace BattleBall.Core.Rooms
         #region Fields
         private int[,] playerMatrix;
         private int[,] gameMatrix;
-        private List<RoomUser> players;
+        //private List<RoomUser> players;
+        private Dictionary<int, RoomUser> players;
         private readonly int maxX, maxY;
         private AStarSolver<Room> astarSolver;
 
@@ -45,23 +48,57 @@ namespace BattleBall.Core.Rooms
             }
         }
 
-        internal List<RoomUser> Players { get => players; set => players = value; }
+        internal Dictionary<int, RoomUser> Players { get => players; set => players = value; }
 
-        internal void AddPlayer(RoomUser player)
+        internal void AddPlayerToRoom(GameClient Session)
         {
-            if (!players.Contains(player))
+            int x = 3;
+            int y = 7;
+            RoomUser User = new RoomUser(Session.User.Id, x, y, Session.User);
+            Session.User.CurrentRoom = this;
+            Players.Add(User.UserId, User);
+            PlayerMatrix[User.X, User.Y] = User.UserId;
+
+            SerializeRoomUsers();
+        }
+
+        internal void RemoveUserFromRoom(GameClient session)
+        {
+            if (session == null)
+                return;
+            RoomUser user = GetRoomUserByUserId(session.User.Id);
+            if (user == null)
             {
-                this.players.Add(player);
+                return;
             }
-            this.PlayerMatrix[player.X, player.Y] = player.Id;
+            playerMatrix[user.X, user.Y] = 0;
+
+            this.players.Remove(session.User.Id);
+
+            SerializeRoomUsers();
+        }
+
+        internal void SerializeRoomUsers()
+        {
+            ServerMessage response = new ServerMessage(ServerOpCodes.PLAYERS_DATA);
+            response.AppendInt(BattleEnvironment.Game.Room.Players.Count);
+
+            foreach (var Player in BattleEnvironment.Game.Room.Players.Values)
+            {
+                response.AppendInt(Player.UserId);
+                response.AppendInt(Player.X);
+                response.AppendInt(Player.Y);
+                response.AppendString(Player.User.Look);
+            }
+
+            SendMessage(response);
         }
 
         internal void MovePlayersTo(int x, int y)
         {
-            foreach (var Player in Players)
+            foreach (var Player in Players.Values)
             {
-                Player.X = x;
-                Player.Y = y;
+                Player.MoveTo(x, y);
             }
         }
         #endregion
@@ -73,20 +110,29 @@ namespace BattleBall.Core.Rooms
             this.maxY = maxY;
             this.playerMatrix = new int[maxX, maxY];
             this.gameMatrix = new int[maxX, maxY];
-            this.players = new List<RoomUser>();
+            this.players = new Dictionary<int, RoomUser>();
             this.astarSolver = new AStarSolver<Room>(false, AStarHeuristicType.ExperimentalSearch, this, maxX, maxY);
         }
         #endregion
 
         #region Methods
+
+        internal RoomUser GetRoomUserByUserId(int id)
+        {
+            foreach (RoomUser user in players.Values)
+            {
+                if (user.UserId == id)
+                    return user;
+            }
+            return null;
+        }
         internal void OnCycle()
         {
-            Console.WriteLine("OnCyle()");
-            foreach (RoomUser player in players)
+            foreach (RoomUser player in players.Values)
             {
                 if (player.PathRecalcNeeded)
                 {
-                    Console.WriteLine(player.Id + "'s needs recalc...");
+                    //Console.WriteLine(player.UserId + "'s needs recalc...");
                     Point start = new Point(player.X, player.Y);
                     Point end = new Point(player.TargetX, player.TargetY);
                     LinkedList<AStarSolver<Room>.PathNode> path = astarSolver.Search(end, start);
@@ -112,7 +158,7 @@ namespace BattleBall.Core.Rooms
 
                 if (player.IsMoving)
                 {
-                    Console.WriteLine(player.Id + "'s is moving...");
+                    //Console.WriteLine(player.UserId + "'s is moving...");
                     if (player.Path.Count > 1)
                     {
                         PlayerMatrix[player.X, player.Y] = 0;
@@ -123,7 +169,7 @@ namespace BattleBall.Core.Rooms
                         player.X = player.Path.First.Value.X;
                         player.Y = player.Path.First.Value.Y;
 
-                        PlayerMatrix[player.X, player.Y] = player.Id;
+                        PlayerMatrix[player.X, player.Y] = player.UserId;
                         player.Path.RemoveFirst();
                         if (player.TargetX == player.X && player.TargetY == player.Y)
                         {
@@ -131,6 +177,12 @@ namespace BattleBall.Core.Rooms
                         }
 
                         OnPlayerWalksOnTile(player, player.X, player.Y);
+
+                        ServerMessage movementMessage = new ServerMessage(ServerOpCodes.PLAYER_MOVEMENT);
+                        movementMessage.AppendInt(player.UserId);
+                        movementMessage.AppendInt(player.X);
+                        movementMessage.AppendInt(player.Y);
+                        SendMessage(movementMessage);
                     }
                     else
                     {
@@ -153,6 +205,14 @@ namespace BattleBall.Core.Rooms
         internal void OnPlayerWalksOnTile(RoomUser player, int x, int y)
         {
             gameMatrix[x, y] = (int)player.Team;
+        }
+
+        internal void SendMessage(ServerMessage Message)
+        {
+            foreach (RoomUser user in players.Values)
+            {
+                user.User.Session.SendMessage(Message);
+            }
         }
 
         internal void OnPlayerWalksOffTile(RoomUser player, int x, int y)

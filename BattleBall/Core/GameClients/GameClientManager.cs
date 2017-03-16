@@ -9,18 +9,18 @@ namespace BattleBall.Core.GameClients
 {
     class GameClientManager : ISocketHandler
     {
-        public Dictionary<IWebSocketConnection, GameClient> Clients;
+        public Dictionary<Guid, GameClient> Clients;
 
         public GameClientManager()
         {
-            this.Clients = new Dictionary<IWebSocketConnection, GameClient>();
+            this.Clients = new Dictionary<Guid, GameClient>();
         }
 
         public void HandleDisconnect(IWebSocketConnection socket)
         {
             lock (this.Clients)
             {
-                this.Clients.Remove(socket);
+                this.Clients.Remove(socket.ConnectionInfo.Id);
             }
             Logging.WriteLine("Client disconnected", ConsoleColor.Red);
         }
@@ -31,7 +31,7 @@ namespace BattleBall.Core.GameClients
             {
                 lock (this.Clients)
                 {
-                    this.Clients[socket].HandleMessage(message);
+                    this.Clients[socket.ConnectionInfo.Id].HandleMessage(message);
                 }                    
             }
             catch (KeyNotFoundException)
@@ -45,7 +45,7 @@ namespace BattleBall.Core.GameClients
             Logging.WriteLine("Starting gameclient...", ConsoleColor.Yellow);
             lock (this.Clients)
             {
-                Clients.Add(socket, new GameClient(socket));
+                Clients.Add(socket.ConnectionInfo.Id, new GameClient(socket));
             }
         }
 

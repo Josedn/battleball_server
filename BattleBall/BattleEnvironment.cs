@@ -41,6 +41,11 @@ namespace BattleBall
 
                             break;
                         }
+                    case "cycle":
+                        {
+                            game.OnCycle();
+                            break;
+                        }
                 }
             }
         }
