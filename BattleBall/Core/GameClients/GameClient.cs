@@ -27,20 +27,6 @@ namespace BattleBall.Core.GameClients
             this.MessageHandler.HandleMessage(Message);
         }
 
-        internal void BroadcastMovement()
-        {
-            ServerMessage response = new ServerMessage(ServerOpCodes.PLAYERS_DATA);
-            response.AppendInt(BattleEnvironment.Game.Room.Players.Count);
-
-            foreach (var Player in BattleEnvironment.Game.Room.Players.Values)
-            {
-                response.AppendInt(Player.X);
-                response.AppendInt(Player.Y);
-            }
-
-            SendMessage(response);
-        }
-
         internal void Stop()
         {
             if (User != null)

@@ -83,7 +83,7 @@ namespace BattleBall.Core.Rooms
             ServerMessage response = new ServerMessage(ServerOpCodes.PLAYERS_DATA);
             response.AppendInt(BattleEnvironment.Game.Room.Players.Count);
 
-            foreach (var Player in BattleEnvironment.Game.Room.Players.Values)
+            foreach (RoomUser Player in BattleEnvironment.Game.Room.Players.Values)
             {
                 response.AppendInt(Player.UserId);
                 response.AppendInt(Player.X);
@@ -96,7 +96,7 @@ namespace BattleBall.Core.Rooms
 
         internal void MovePlayersTo(int x, int y)
         {
-            foreach (var Player in Players.Values)
+            foreach (RoomUser Player in Players.Values)
             {
                 Player.MoveTo(x, y);
             }
@@ -119,10 +119,9 @@ namespace BattleBall.Core.Rooms
 
         internal RoomUser GetRoomUserByUserId(int id)
         {
-            foreach (RoomUser user in players.Values)
+            if (players.ContainsKey(id))
             {
-                if (user.UserId == id)
-                    return user;
+                return players[id];
             }
             return null;
         }

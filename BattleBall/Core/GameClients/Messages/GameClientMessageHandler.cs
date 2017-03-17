@@ -28,11 +28,6 @@ namespace BattleBall.Core.GameClients.Messages
         #endregion
 
         #region Methods
-        internal void RequestPlayers()
-        {
-            Logging.WriteLine("Sending players to " + Session.User.Username, ConsoleColor.Green);
-
-        }
         internal void RequestMap()
         {
             Logging.WriteLine("Sending map to " + Session.User.Username, ConsoleColor.Green);
@@ -121,7 +116,6 @@ namespace BattleBall.Core.GameClients.Messages
         {
             RequestHandlers[ClientOpCodes.REQUEST_MAP] = RequestMap;
             RequestHandlers[ClientOpCodes.LOGIN] = Login;
-            RequestHandlers[ClientOpCodes.REQUEST_PLAYERS] = RequestPlayers;
             RequestHandlers[ClientOpCodes.REQUEST_MOVEMENT] = RequestMovement;
         }
         #endregion

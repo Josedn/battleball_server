@@ -4,7 +4,6 @@
     {
         public const int LOGIN = 1;
         public const int REQUEST_MAP = 2;
-        public const int REQUEST_PLAYERS = 5;
         public const int REQUEST_MOVEMENT = 7;
     }
     class ServerOpCodes

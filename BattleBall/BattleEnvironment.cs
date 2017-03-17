@@ -36,14 +36,18 @@ namespace BattleBall
                     case "move":
                         {
                             int x = int.Parse(args[1]);
-                            int y = int.Parse(args[2]); 
+                            int y = int.Parse(args[2]);
                             game.Room.MovePlayersTo(x, y);
-
                             break;
                         }
                     case "cycle":
                         {
                             game.OnCycle();
+                            break;
+                        }
+                    case "status":
+                        {
+                            Logging.WriteLine("OnlineCount: " + game.ClientManager.Clients.Count, ConsoleColor.Yellow);
                             break;
                         }
                 }
