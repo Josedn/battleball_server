@@ -17,38 +17,11 @@ namespace BattleBall.Core.Rooms
         private readonly int maxX, maxY;
         private AStarSolver<Room> astarSolver;
 
-        public int[,] GameMatrix
-        {
-            get
-            {
-                return gameMatrix;
-            }
-        }
-        public int[,] PlayerMatrix
-        {
-            get
-            {
-                return playerMatrix;
-            }
-        }
-
-        public int MaxX
-        {
-            get
-            {
-                return maxX;
-            }
-        }
-
-        public int MaxY
-        {
-            get
-            {
-                return maxY;
-            }
-        }
-
+        public int[,] PlayerMatrix { get => playerMatrix; set => playerMatrix = value; }
+        public int[,] GameMatrix { get => gameMatrix; set => gameMatrix = value; }
         internal Dictionary<int, RoomUser> Players { get => players; set => players = value; }
+        public int MaxX => maxX;
+        public int MaxY => maxY;
 
         internal void AddPlayerToRoom(GameClient Session)
         {
@@ -71,9 +44,10 @@ namespace BattleBall.Core.Rooms
             {
                 return;
             }
-            playerMatrix[user.X, user.Y] = 0;
+            PlayerMatrix[user.X, user.Y] = 0;
 
-            this.players.Remove(session.User.Id);
+            user.User.CurrentRoom = null;
+            Players.Remove(session.User.Id);
 
             SerializeRoomUsers();
         }
@@ -108,9 +82,9 @@ namespace BattleBall.Core.Rooms
         {
             this.maxX = maxX;
             this.maxY = maxY;
-            this.playerMatrix = new int[maxX, maxY];
-            this.gameMatrix = new int[maxX, maxY];
-            this.players = new Dictionary<int, RoomUser>();
+            this.PlayerMatrix = new int[maxX, maxY];
+            this.GameMatrix = new int[maxX, maxY];
+            this.Players = new Dictionary<int, RoomUser>();
             this.astarSolver = new AStarSolver<Room>(false, AStarHeuristicType.ExperimentalSearch, this, maxX, maxY);
         }
         #endregion
@@ -119,15 +93,15 @@ namespace BattleBall.Core.Rooms
 
         internal RoomUser GetRoomUserByUserId(int id)
         {
-            if (players.ContainsKey(id))
+            if (Players.ContainsKey(id))
             {
-                return players[id];
+                return Players[id];
             }
             return null;
         }
         internal void OnCycle()
         {
-            foreach (RoomUser player in players.Values)
+            foreach (RoomUser player in Players.Values)
             {
                 if (player.PathRecalcNeeded)
                 {
@@ -203,12 +177,12 @@ namespace BattleBall.Core.Rooms
 
         internal void OnPlayerWalksOnTile(RoomUser player, int x, int y)
         {
-            gameMatrix[x, y] = (int)player.Team;
+            GameMatrix[x, y] = (int)player.Team;
         }
 
         internal void SendMessage(ServerMessage Message)
         {
-            foreach (RoomUser user in players.Values)
+            foreach (RoomUser user in Players.Values)
             {
                 user.User.Session.SendMessage(Message);
             }

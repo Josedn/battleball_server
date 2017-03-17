@@ -7,31 +7,26 @@ namespace BattleBall.Core.GameClients.Messages
         private string Body;
         private string[] Tokens;
         private int Pointer;
-
         private int id;
+
+        private const char SEPARATOR = '|';
 
         internal ClientMessage(string Message)
         {
             this.Pointer = 0;
             this.id = -1;
             this.Body = Message;
-            this.Tokens = Body.Split('|');
+            this.Tokens = Body.Split(SEPARATOR);
 
-            if (!int.TryParse(PopString(), out id))
+            if (!int.TryParse(PopToken(), out id))
             {
                 throw new ArgumentException("Invalid MessageId!!");
             }
         }
 
-        internal int Id
-        {
-            get
-            {
-                return id;
-            }
-        }
+        public int Id => id;
 
-        internal string PopString()
+        private string PopToken()
         {
             if (Tokens.Length > Pointer)
             {
@@ -39,11 +34,24 @@ namespace BattleBall.Core.GameClients.Messages
             }
             return null;
         }
+
+        internal string PopString()
+        {
+            int tickets = PopInt();
+            string totalString = PopToken();
+
+            for (int i = 0; i < tickets; i++)
+            {
+                totalString += SEPARATOR + PopToken();
+            }
+
+            return totalString;
+        }
         internal int PopInt()
         {
             try
             {
-                return int.Parse(PopString());
+                return int.Parse(PopToken());
             }
             catch (NullReferenceException e)
             {

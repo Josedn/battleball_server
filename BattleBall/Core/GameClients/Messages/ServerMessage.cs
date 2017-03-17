@@ -3,20 +3,33 @@
     class ServerMessage
     {
         private string Body;
+        private const char SEPARATOR = '|';
 
         internal ServerMessage(int Id)
         {
             Body = Id.ToString();
         }
 
+        public void AppendToken(string token)
+        {
+            Body += SEPARATOR + token;
+        }
+
         public void AppendInt(int i)
         {
-            AppendString(i.ToString());
+            AppendToken(i.ToString());
         }
 
         public void AppendString(string str)
         {
-            Body += "|" + str;
+            int tickets = 0;
+            for (int i = 0; i < str.Length; i++)
+            {
+                if (str[i] == SEPARATOR)
+                    tickets++;
+            }
+            AppendInt(tickets);
+            AppendToken(str);
         }
 
         public override string ToString()
