@@ -28,6 +28,14 @@ namespace BattleBall.Core.GameClients.Messages
         #endregion
 
         #region Methods
+        internal void RequestChat()
+        {
+            string Message = Request.PopString();
+            RoomUser user = Session.User.CurrentRoom.GetRoomUserByUserId(Session.User.Id);
+            user.Chat(Message);
+
+            Logging.WriteLine(Session.User.Username + ": " + Message, ConsoleColor.Yellow);
+        }
         internal void RequestMap()
         {
             Logging.WriteLine("Sending map to " + Session.User.Username, ConsoleColor.Green);
@@ -37,19 +45,12 @@ namespace BattleBall.Core.GameClients.Messages
 
             response.AppendInt(model.Width);
             response.AppendInt(model.Height);
-            response.AppendInt(model.TSize);
 
-            response.AppendInt(model.Layers.Length); //num of layers
-
-            for (int i = 0; i < model.Layers.Length; i++)
+            for (int i = 0; i < model.Width; i++)
             {
-                for (int j = 0; j < model.Width; j++)
+                for (int j = 0; j < model.Height; j++)
                 {
-                    for (int k = 0; k < model.Height; k++)
-                    {
-                        response.AppendInt(1);
-                        //response.AppendInt(model.Layers[i][j][k]);
-                    }
+                    response.AppendInt(model.Layer[i, j]);
                 }
             }
             Session.SendMessage(response);
@@ -118,6 +119,7 @@ namespace BattleBall.Core.GameClients.Messages
             RequestHandlers[ClientOpCodes.REQUEST_MAP] = RequestMap;
             RequestHandlers[ClientOpCodes.LOGIN] = Login;
             RequestHandlers[ClientOpCodes.REQUEST_MOVEMENT] = RequestMovement;
+            RequestHandlers[ClientOpCodes.REQUEST_CHAT] = RequestChat;
         }
         #endregion
     }

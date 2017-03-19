@@ -29,7 +29,7 @@ namespace BattleBall.Core.Rooms
             int y = new Random().Next(0, MaxY);
             int rot = 2;
 
-            RoomUser User = new RoomUser(Session.User.Id, x, y, rot, Session.User);
+            RoomUser User = new RoomUser(Session.User.Id, x, y, rot, Session.User, this);
             Session.User.CurrentRoom = this;
             Players.Add(User.UserId, User);
             PlayerMatrix[User.X, User.Y] = User.UserId;

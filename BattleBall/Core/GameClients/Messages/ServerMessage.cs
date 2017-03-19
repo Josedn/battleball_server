@@ -10,7 +10,7 @@
             Body = Id.ToString();
         }
 
-        public void AppendToken(string token)
+        private void AppendToken(string token)
         {
             Body += SEPARATOR + token;
         }
