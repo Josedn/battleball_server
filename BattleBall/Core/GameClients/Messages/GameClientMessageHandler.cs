@@ -47,7 +47,8 @@ namespace BattleBall.Core.GameClients.Messages
                 {
                     for (int k = 0; k < model.Height; k++)
                     {
-                        response.AppendInt(model.Layers[i][j][k]);
+                        response.AppendInt(1);
+                        //response.AppendInt(model.Layers[i][j][k]);
                     }
                 }
             }

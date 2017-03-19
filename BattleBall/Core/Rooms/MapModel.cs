@@ -2,8 +2,8 @@
 {
     class MapModel
     {
-        public int Height = 12;
-        public int Width = 12;
+        public int Height = 13;
+        public int Width = 8;
         public int TSize = 64;
         public int[][][] Layers = new int[][][] {
             new int[][] {

@@ -25,9 +25,11 @@ namespace BattleBall.Core.Rooms
 
         internal void AddPlayerToRoom(GameClient Session)
         {
-            int x = 3;
-            int y = 7;
-            RoomUser User = new RoomUser(Session.User.Id, x, y, Session.User);
+            int x = new Random().Next(0, MaxX);
+            int y = new Random().Next(0, MaxY);
+            int rot = 2;
+
+            RoomUser User = new RoomUser(Session.User.Id, x, y, rot, Session.User);
             Session.User.CurrentRoom = this;
             Players.Add(User.UserId, User);
             PlayerMatrix[User.X, User.Y] = User.UserId;
@@ -62,6 +64,7 @@ namespace BattleBall.Core.Rooms
                 response.AppendInt(Player.UserId);
                 response.AppendInt(Player.X);
                 response.AppendInt(Player.Y);
+                response.AppendInt(Player.Rot);
                 response.AppendString(Player.User.Look);
             }
 
@@ -74,6 +77,46 @@ namespace BattleBall.Core.Rooms
             {
                 Player.MoveTo(x, y);
             }
+        }
+
+        internal int CalculateRotation(int X1, int Y1, int X2, int Y2)
+        {
+            int Rotation = 0;
+
+            if (X1 > X2 && Y1 > Y2)
+            {
+                Rotation = 7;
+            }
+            else if (X1 < X2 && Y1 < Y2)
+            {
+                Rotation = 3;
+            }
+            else if (X1 > X2 && Y1 < Y2)
+            {
+                Rotation = 5;
+            }
+            else if (X1 < X2 && Y1 > Y2)
+            {
+                Rotation = 1;
+            }
+            else if (X1 > X2)
+            {
+                Rotation = 6;
+            }
+            else if (X1 < X2)
+            {
+                Rotation = 2;
+            }
+            else if (Y1 < Y2)
+            {
+                Rotation = 4;
+            }
+            else if (Y1 > Y2)
+            {
+                Rotation = 0;
+            }
+
+            return Rotation;
         }
         #endregion
 
@@ -139,6 +182,8 @@ namespace BattleBall.Core.Rooms
 
                         OnPlayerWalksOffTile(player, player.X, player.Y);
 
+                        player.Rot = CalculateRotation(player.X, player.Y, player.Path.First.Value.X, player.Path.First.Value.Y);
+
                         player.X = player.Path.First.Value.X;
                         player.Y = player.Path.First.Value.Y;
 
@@ -155,6 +200,7 @@ namespace BattleBall.Core.Rooms
                         movementMessage.AppendInt(player.UserId);
                         movementMessage.AppendInt(player.X);
                         movementMessage.AppendInt(player.Y);
+                        movementMessage.AppendInt(player.Rot);
                         SendMessage(movementMessage);
                     }
                     else

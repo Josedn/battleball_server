@@ -40,11 +40,6 @@ namespace BattleBall
                             game.Room.MovePlayersTo(x, y);
                             break;
                         }
-                    case "cycle":
-                        {
-                            game.OnCycle();
-                            break;
-                        }
                     case "status":
                         {
                             Logging.WriteLine("OnlineCount: " + game.ClientManager.Clients.Count, ConsoleColor.Yellow);

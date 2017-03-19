@@ -49,7 +49,11 @@ namespace BattleBall.Core.GameClients
 
         internal void SendMessage(ServerMessage Message)
         {
-            Connection.Send(Message.ToString());
+            Logging.WriteLine("Sent: " + Message.ToString(), ConsoleColor.Yellow);
+            if (Connection.IsAvailable)
+                Connection.Send(Message.ToString());
+            else
+                Stop();
         }
     }
 }
