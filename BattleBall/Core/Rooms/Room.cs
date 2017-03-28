@@ -10,16 +10,13 @@ namespace BattleBall.Core.Rooms
     class Room : IPathNode
     {
         #region Fields
-        private int[,] playerMatrix;
-        private int[,] gameMatrix;
+        private int[,] PlayerMatrix;
+        private int[,] GameMatrix;
         //private List<RoomUser> players;
-        private Dictionary<int, RoomUser> players;
+        private Dictionary<int, RoomUser> Players;
         private readonly int maxX, maxY;
         private AStarSolver<Room> astarSolver;
 
-        public int[,] PlayerMatrix { get => playerMatrix; set => playerMatrix = value; }
-        public int[,] GameMatrix { get => gameMatrix; set => gameMatrix = value; }
-        internal Dictionary<int, RoomUser> Players { get => players; set => players = value; }
         public int MaxX => maxX;
         public int MaxY => maxY;
 

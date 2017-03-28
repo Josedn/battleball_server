@@ -11,26 +11,20 @@ namespace BattleBall.Core
     {
         #region Fields
         public Room Room;
-        private ConnectionManager connectionManager;
-        private GameClientManager clientManager;
-        private MapModel mapModel;
+        internal ConnectionManager ConnectionManager;
+        internal GameClientManager ClientManager;
+        internal MapModel MapModel;
         private const int DELTA_TIME = 500;
-        #endregion
-
-        #region Return Values
-        internal ConnectionManager ConnectionManager { get => connectionManager; }
-        internal GameClientManager ClientManager { get => clientManager; }
-        internal MapModel MapModel { get => mapModel; }
         #endregion
 
         #region Constructor
         internal Game()
         {
-            this.clientManager = new GameClientManager();
-            this.connectionManager = new ConnectionManager(clientManager);
+            this.ClientManager = new GameClientManager();
+            this.ConnectionManager = new ConnectionManager(ClientManager);
 
-            this.mapModel = new MapModel();
-            this.Room = new Room(mapModel.Width, mapModel.Height);
+            this.MapModel = new MapModel();
+            this.Room = new Room(MapModel.Width, MapModel.Height);
             Task RoomThread = new Task(OnCycle);
             RoomThread.Start();
         }

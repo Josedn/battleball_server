@@ -6,13 +6,11 @@ namespace BattleBall
 {
     class BattleEnvironment
     {
-        private static Game game;
-
-        internal static Game Game { get => game; }
+		internal static Game Game;
 
         public static void Initialize()
         {
-            game = new Game();
+            Game = new Game();
 
             Logging.WriteLine("The environment has initialized successfully. Ready for connections.", ConsoleColor.Green);
 
@@ -37,12 +35,12 @@ namespace BattleBall
                         {
                             int x = int.Parse(args[1]);
                             int y = int.Parse(args[2]);
-                            game.Room.MovePlayersTo(x, y);
+                            Game.Room.MovePlayersTo(x, y);
                             break;
                         }
                     case "status":
                         {
-                            Logging.WriteLine("OnlineCount: " + game.ClientManager.Clients.Count, ConsoleColor.Yellow);
+                            Logging.WriteLine("OnlineCount: " + Game.ClientManager.Clients.Count, ConsoleColor.Yellow);
                             break;
                         }
                 }
