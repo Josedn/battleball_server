@@ -12,9 +12,9 @@
             get
             {
                 int[,] matrix = new int[Cols, Rows];
-                for (int i = 0; i < Cols; i++)
+                for (int i = 1; i < Cols; i++)
                 {
-                    for (int j = 1; j < Rows; j++)
+                    for (int j = 0; j < Rows; j++)
                     {
                         matrix[i, j] = 1;
                     }

@@ -14,9 +14,10 @@ namespace BattleBall.Communication.Outgoing.Rooms
 
         public SerializeRoomUserComposer(RoomUser user) : base(ServerOpCodes.PLAYERS_DATA)
         {
-            List<RoomUser> list = new List<RoomUser>();
-            list.Add(user);
-            CreateMessage(list);
+            CreateMessage(new List<RoomUser>
+            {
+                user
+            });
         }
 
         private void CreateMessage(IEnumerable<RoomUser> users)

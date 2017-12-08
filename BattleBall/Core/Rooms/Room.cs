@@ -27,7 +27,7 @@ namespace BattleBall.Core.Rooms
             this.PlayerMatrix = new int[Model.Cols, Model.Rows];
             this.GameMatrix = new int[Model.Cols, Model.Rows];
             this.Players = new Dictionary<int, RoomUser>();
-            this.astarSolver = new AStarSolver<Room>(false, AStarHeuristicType.ShortestPath, this, Model.Cols, Model.Rows);
+            this.astarSolver = new AStarSolver<Room>(true, AStarHeuristicType.Between, this, Model.Cols, Model.Rows);
         }
         #endregion
 
@@ -35,11 +35,7 @@ namespace BattleBall.Core.Rooms
 
         internal void AddPlayerToRoom(GameClient Session)
         {
-            int x = new Random().Next(0, Model.Cols);
-            int y = new Random().Next(0, Model.Rows);
-            int rot = 2;
-
-            RoomUser User = new RoomUser(Session.User.Id, x, y, 0, rot, Session.User, this);
+            RoomUser User = new RoomUser(Session.User.Id, Model.DoorX, Model.DoorY, 0, 2, Session.User, this);
             Session.User.CurrentRoom = this;
             Players.Add(User.UserId, User);
             PlayerMatrix[User.X, User.Y] = User.UserId;
@@ -192,7 +188,7 @@ namespace BattleBall.Core.Rooms
 
         public bool IsBlocked(int x, int y, bool lastTile)
         {
-            return !ValidTile(x, y) || PlayerMatrix[x, y] != 0;
+            return !ValidTile(x, y) || PlayerMatrix[x, y] != 0 || Model.Layer[x, y] == 0;
         }
 
         internal void OnPlayerWalksOnTile(RoomUser player, int x, int y)
