@@ -8,7 +8,8 @@ namespace BattleBall.Core.Rooms
 {
     class RoomUser
     {
-		internal int UserId;
+        #region Fields
+        internal int UserId;
         internal int X, Y, Rot;
         internal double Z;
 		internal int TargetX, TargetY;
@@ -18,9 +19,12 @@ namespace BattleBall.Core.Rooms
         public Room Room { get; }
         public Team Team { get; set; }
         public LinkedList<Point> Path { get; set; }
-        
-        internal User User;
+        public bool NeedsUpdate { get; set; }
 
+        internal User User;
+        #endregion
+
+        #region Constructor
         public RoomUser(int userId, int x, int y, double z, int rot, User user, Room room)
         {
             this.UserId = userId;
@@ -36,6 +40,18 @@ namespace BattleBall.Core.Rooms
             this.Team = Team.None;
             this.User = user;
             this.Room = room;
+        }
+        #endregion
+
+        #region Methods
+        internal void LookAt(int userId)
+        {
+            RoomUser otherUser = Room.GetRoomUserByUserId(userId);
+            if (otherUser != null)
+            {
+                Rot = Room.CalculateRotation(X, Y, otherUser.X, otherUser.Y);
+                NeedsUpdate = true;
+            }
         }
 
         public void MoveTo(int x, int y)
@@ -53,5 +69,6 @@ namespace BattleBall.Core.Rooms
         {
             Room.SendMessage(new ChatComposer(UserId, message));
         }
+        #endregion
     }
 }

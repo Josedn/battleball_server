@@ -38,6 +38,7 @@
     <Compile Include="Communication\Incoming\IncomingEvent.cs" />
     <Compile Include="Communication\Incoming\Rooms\Login.cs" />
     <Compile Include="Communication\Incoming\Rooms\RequestChat.cs" />
+    <Compile Include="Communication\Incoming\Rooms\RequestLookAt.cs" />
     <Compile Include="Communication\Incoming\Rooms\RequestMap.cs" />
     <Compile Include="Communication\Incoming\Rooms\RequestMovement.cs" />
     <Compile Include="Communication\Outgoing\Rooms\ChatComposer.cs" />
@@ -52,7 +53,6 @@
     <Compile Include="Core\GameClients\GameClient.cs" />
     <Compile Include="Core\GameClients\GameClientManager.cs" />
     <Compile Include="Communication\Protocol\ClientMessage.cs" />
-    <Compile Include="Core\GameClients\OldGameClientMessageHandler.cs" />
     <Compile Include="Communication\Protocol\ServerMessage.cs" />
     <Compile Include="Communication\Protocol\ClientOpCodes.cs" />
     <Compile Include="Core\GameClients\GameClientMessageHandler.cs" />

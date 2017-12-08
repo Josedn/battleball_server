@@ -9,7 +9,7 @@ namespace BattleBall.Core.GameClients
     class GameClientMessageHandler
     {
         private IncomingEvent[] RequestHandlers;
-        private const int HIGHEST_MESSAGE_ID = 11;
+        private const int HIGHEST_MESSAGE_ID = 20;
 
         public GameClientMessageHandler()
         {
@@ -41,6 +41,7 @@ namespace BattleBall.Core.GameClients
             RequestHandlers[ClientOpCodes.LOGIN] = new Login();
             RequestHandlers[ClientOpCodes.REQUEST_MOVEMENT] = new RequestMovement();
             RequestHandlers[ClientOpCodes.REQUEST_CHAT] = new RequestChat();
+            RequestHandlers[ClientOpCodes.REQUEST_LOOK_AT] = new RequestLookAt();
         }
     }
 }

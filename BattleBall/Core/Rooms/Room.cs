@@ -147,6 +147,12 @@ namespace BattleBall.Core.Rooms
                     player.IsMoving = true;
                 }
 
+                if (player.NeedsUpdate)
+                {
+                    SendMessage(new SerializeRoomUserComposer(player)); //Send new room user data to room
+                    player.NeedsUpdate = false;
+                }
+
                 if (player.IsMoving)
                 {
                     //Console.WriteLine(player.UserId + "'s is moving...");
