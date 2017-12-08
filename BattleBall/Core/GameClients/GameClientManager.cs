@@ -3,17 +3,19 @@ using System;
 using System.Collections.Generic;
 using BattleBall.Misc;
 using BattleBall.Net;
-using BattleBall.Core.GameClients.Messages;
+using BattleBall.Communication.Protocol;
 
 namespace BattleBall.Core.GameClients
 {
     class GameClientManager : ISocketHandler
     {
         public Dictionary<Guid, GameClient> Clients;
+        public GameClientMessageHandler MessageHandler;
 
         public GameClientManager()
         {
             this.Clients = new Dictionary<Guid, GameClient>();
+            this.MessageHandler = new GameClientMessageHandler();
         }
 
         public void HandleDisconnect(IWebSocketConnection socket)
@@ -44,7 +46,7 @@ namespace BattleBall.Core.GameClients
         {
             lock (this.Clients)
             {
-                Clients.Add(socket.ConnectionInfo.Id, new GameClient(socket));
+                Clients.Add(socket.ConnectionInfo.Id, new GameClient(socket, MessageHandler));
             }
         }
 

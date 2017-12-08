@@ -8,11 +8,11 @@ namespace BattleBall.Core
     class User
     {
         #region Fields
-		internal int Id;
-		internal string Username;
-		internal string Look;
-		internal GameClient Session;
-		internal Room CurrentRoom;
+        internal int Id;
+        internal string Username;
+        internal string Look;
+        internal GameClient Session;
+        internal Room CurrentRoom;
         private bool disconnected;
         #endregion
 
@@ -26,6 +26,18 @@ namespace BattleBall.Core
             this.disconnected = false;
         }
         #endregion
+
+        internal RoomUser CurrentRoomUser
+        {
+            get
+            {
+                if (CurrentRoom != null)
+                {
+                    return CurrentRoom.GetRoomUserByUserId(Id);
+                }
+                return null;
+            }
+        }
 
         internal void OnDisconnect()
         {

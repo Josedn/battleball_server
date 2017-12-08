@@ -2,24 +2,24 @@
 {
     class MapModel
     {
-        public int Height = 14;
-        public int Width = 9;
+        public int Cols = 9;
+        public int Rows = 13;
         public int TSize = 64;
-        public int DoorX = 4;
-        public int DoorY = 0;
+        public int DoorX = 0;
+        public int DoorY = 4;
         public int[,] Layer
         {
             get
             {
-                int[,] matrix = new int[Width, Height];
-                for (int i = 1; i < Width; i++)
+                int[,] matrix = new int[Cols, Rows];
+                for (int i = 0; i < Cols; i++)
                 {
-                    for (int j = 1; j < Height; j++)
+                    for (int j = 1; j < Rows; j++)
                     {
                         matrix[i, j] = 1;
                     }
                 }
-                matrix[0, 4] = 1;
+                matrix[DoorX, DoorY] = 1;
                 return matrix;
             }
         }

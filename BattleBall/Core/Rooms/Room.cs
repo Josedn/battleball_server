@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using BattleBall.AStar.Algorithm;
 using System.Drawing;
 using BattleBall.Core.GameClients;
-using BattleBall.Core.GameClients.Messages;
+using BattleBall.Communication.Protocol;
+using BattleBall.Communication.Outgoing.Rooms;
 
 namespace BattleBall.Core.Rooms
 {
@@ -12,26 +13,40 @@ namespace BattleBall.Core.Rooms
         #region Fields
         private int[,] PlayerMatrix;
         private int[,] GameMatrix;
-        //private List<RoomUser> players;
+
+        private MapModel Model;
         private Dictionary<int, RoomUser> Players;
-        private readonly int maxX, maxY;
         private AStarSolver<Room> astarSolver;
 
-        public int MaxX => maxX;
-        public int MaxY => maxY;
+        #endregion
+
+        #region Constructor
+        public Room(MapModel model)
+        {
+            this.Model = model;
+            this.PlayerMatrix = new int[Model.Cols, Model.Rows];
+            this.GameMatrix = new int[Model.Cols, Model.Rows];
+            this.Players = new Dictionary<int, RoomUser>();
+            this.astarSolver = new AStarSolver<Room>(false, AStarHeuristicType.ShortestPath, this, Model.Cols, Model.Rows);
+        }
+        #endregion
+
+        #region Methods
 
         internal void AddPlayerToRoom(GameClient Session)
         {
-            int x = new Random().Next(0, MaxX);
-            int y = new Random().Next(0, MaxY);
+            int x = new Random().Next(0, Model.Cols);
+            int y = new Random().Next(0, Model.Rows);
             int rot = 2;
 
-            RoomUser User = new RoomUser(Session.User.Id, x, y, rot, Session.User, this);
+            RoomUser User = new RoomUser(Session.User.Id, x, y, 0, rot, Session.User, this);
             Session.User.CurrentRoom = this;
             Players.Add(User.UserId, User);
             PlayerMatrix[User.X, User.Y] = User.UserId;
 
-            SerializeRoomUsers();
+            Session.SendMessage(new MapComposer(Model)); //Send map data to player
+            SendMessage(new SerializeRoomUserComposer(User)); //Send new room user data to room
+            Session.SendMessage(new SerializeRoomUserComposer(Players.Values)); //Send all players in room to user
         }
 
         internal void RemoveUserFromRoom(GameClient session)
@@ -48,24 +63,7 @@ namespace BattleBall.Core.Rooms
             user.User.CurrentRoom = null;
             Players.Remove(session.User.Id);
 
-            SerializeRoomUsers();
-        }
-
-        internal void SerializeRoomUsers()
-        {
-            ServerMessage response = new ServerMessage(ServerOpCodes.PLAYERS_DATA);
-            response.AppendInt(BattleEnvironment.Game.Room.Players.Count);
-
-            foreach (RoomUser Player in BattleEnvironment.Game.Room.Players.Values)
-            {
-                response.AppendInt(Player.UserId);
-                response.AppendInt(Player.X);
-                response.AppendInt(Player.Y);
-                response.AppendInt(Player.Rot);
-                response.AppendString(Player.User.Look);
-            }
-
-            SendMessage(response);
+            SendMessage(new PlayerRemoveComposer(session.User.Id));
         }
 
         internal void MovePlayersTo(int x, int y)
@@ -115,22 +113,6 @@ namespace BattleBall.Core.Rooms
 
             return Rotation;
         }
-        #endregion
-
-        #region Constructor
-        public Room(int maxX, int maxY)
-        {
-            this.maxX = maxX;
-            this.maxY = maxY;
-            this.PlayerMatrix = new int[maxX, maxY];
-            this.GameMatrix = new int[maxX, maxY];
-            this.Players = new Dictionary<int, RoomUser>();
-            this.astarSolver = new AStarSolver<Room>(false, AStarHeuristicType.ExperimentalSearch, this, maxX, maxY);
-        }
-        #endregion
-
-        #region Methods
-
         internal RoomUser GetRoomUserByUserId(int id)
         {
             if (Players.ContainsKey(id))
@@ -193,12 +175,7 @@ namespace BattleBall.Core.Rooms
 
                         OnPlayerWalksOnTile(player, player.X, player.Y);
 
-                        ServerMessage movementMessage = new ServerMessage(ServerOpCodes.PLAYER_MOVEMENT);
-                        movementMessage.AppendInt(player.UserId);
-                        movementMessage.AppendInt(player.X);
-                        movementMessage.AppendInt(player.Y);
-                        movementMessage.AppendInt(player.Rot);
-                        SendMessage(movementMessage);
+                        SendMessage(new PlayerMovementComposer(player.UserId, player.X, player.Y, player.Rot));
                     }
                     else
                     {
@@ -210,7 +187,7 @@ namespace BattleBall.Core.Rooms
 
         internal bool ValidTile(int x, int y)
         {
-            return x >= 0 && y >= 0 && x < MaxX && y < MaxY;
+            return x >= 0 && y >= 0 && x < Model.Cols && y < Model.Rows;
         }
 
         public bool IsBlocked(int x, int y, bool lastTile)

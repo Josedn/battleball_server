@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Drawing;
-using BattleBall.Core.GameClients.Messages;
-using BattleBall.Core.GameClients;
+﻿using BattleBall.Communication.Outgoing.Rooms;
+using BattleBall.Misc;
 using System;
+using System.Collections.Generic;
+using System.Drawing;
 
 namespace BattleBall.Core.Rooms
 {
@@ -10,6 +10,7 @@ namespace BattleBall.Core.Rooms
     {
 		internal int UserId;
         internal int X, Y, Rot;
+        internal double Z;
 		internal int TargetX, TargetY;
 		internal bool IsMoving;
 		internal bool PathRecalcNeeded;
@@ -20,11 +21,12 @@ namespace BattleBall.Core.Rooms
         
         internal User User;
 
-        public RoomUser(int userId, int x, int y, int rot, User user, Room room)
+        public RoomUser(int userId, int x, int y, double z, int rot, User user, Room room)
         {
             this.UserId = userId;
             this.X = x;
             this.Y = y;
+            this.Z = z;
             this.Rot = rot;
             this.TargetX = x;
             this.TargetY = y;
@@ -38,6 +40,7 @@ namespace BattleBall.Core.Rooms
 
         public void MoveTo(int x, int y)
         {
+            Logging.WriteLine(User.Username + " wants to move to " + x + ", " + y, ConsoleColor.Yellow);
             if (Room.ValidTile(x, y))
             {
                 this.TargetX = x;
@@ -46,13 +49,9 @@ namespace BattleBall.Core.Rooms
             }
         }
 
-        internal void Chat(string Message)
+        internal void Chat(string message)
         {
-            ServerMessage ChatMessage = new ServerMessage(ServerOpCodes.CHAT);
-            ChatMessage.AppendInt(UserId);
-            ChatMessage.AppendString(User.Username);
-            ChatMessage.AppendString(Message);
-            Room.SendMessage(ChatMessage);
+            Room.SendMessage(new ChatComposer(UserId, message));
         }
     }
 }

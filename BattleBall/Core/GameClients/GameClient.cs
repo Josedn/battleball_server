@@ -1,5 +1,5 @@
 ﻿using Fleck;
-using BattleBall.Core.GameClients.Messages;
+using BattleBall.Communication.Protocol;
 using BattleBall.Misc;
 using System;
 
@@ -8,14 +8,14 @@ namespace BattleBall.Core.GameClients
     class GameClient
     {
         private IWebSocketConnection Connection;
-        private GameClientMessageHandler MessageHandler;
+        internal GameClientMessageHandler MessageHandler;
         internal User User;
 
-        internal GameClient(IWebSocketConnection Connection)
+        internal GameClient(IWebSocketConnection connection, GameClientMessageHandler messageHandler)
         {
-            this.Connection = Connection;
-            this.MessageHandler = new GameClientMessageHandler(this);
-            this.User = null;
+            Connection = connection;
+            MessageHandler = messageHandler;
+            User = null;
         }
 
         internal void HandleMessage(string RawMessage)
@@ -24,7 +24,7 @@ namespace BattleBall.Core.GameClients
             ClientMessage Message = new ClientMessage(RawMessage);
             Logging.WriteLine("Id: '" + Message.Id + "'", ConsoleColor.Cyan);
 
-            this.MessageHandler.HandleMessage(Message);
+            MessageHandler.HandleMessage(this, Message);
         }
 
         internal void Stop()
@@ -38,12 +38,6 @@ namespace BattleBall.Core.GameClients
             {
                 Connection.Close();
                 Connection = null;
-            }
-
-            if (MessageHandler != null)
-            {
-                MessageHandler.Destroy();
-                MessageHandler = null;
             }
         }
 
