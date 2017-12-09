@@ -47,7 +47,7 @@ namespace BattleBall.Core
             Logging.WriteLine(Username + " has logged out", ConsoleColor.Red);
             if (CurrentRoom != null)
             {
-                CurrentRoom.RemoveUserFromRoom(Session);
+                CurrentRoom.RemovePlayerFromRoom(Session);
             }
         }
     }

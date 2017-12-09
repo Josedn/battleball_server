@@ -14,7 +14,6 @@ namespace BattleBall.Core
         internal ConnectionManager ConnectionManager;
         internal GameClientManager ClientManager;
         internal Authenticator Authenticator;
-        private MapModel MapModel;
         private const int DELTA_TIME = 500;
         #endregion
 
@@ -24,9 +23,8 @@ namespace BattleBall.Core
             this.ClientManager = new GameClientManager();
             this.ConnectionManager = new ConnectionManager(ClientManager);
 
-            this.MapModel = new MapModel();
             this.Authenticator = new Authenticator(this);
-            this.Room = new Room(MapModel);
+            this.Room = new Room(new MapModel());
             Task RoomThread = new Task(OnCycle);
             RoomThread.Start();
         }

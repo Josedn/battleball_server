@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using BattleBall.Communication.Protocol;
 using BattleBall.Core.Rooms;
 
@@ -7,7 +6,7 @@ namespace BattleBall.Communication.Outgoing.Rooms
 {
     class SerializeRoomUserComposer : ServerMessage
     {
-        public SerializeRoomUserComposer(IEnumerable<RoomUser> users) : base(ServerOpCodes.PLAYERS_DATA)
+        public SerializeRoomUserComposer(ICollection<RoomUser> users) : base(ServerOpCodes.PLAYERS_DATA)
         {
             CreateMessage(users);
         }
@@ -20,9 +19,9 @@ namespace BattleBall.Communication.Outgoing.Rooms
             });
         }
 
-        private void CreateMessage(IEnumerable<RoomUser> users)
+        private void CreateMessage(ICollection<RoomUser> users)
         {
-            AppendInt(users.Count());
+            AppendInt(users.Count);
 
             foreach (RoomUser Player in users)
             {

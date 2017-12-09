@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using BattleBall.AStar.Algorithm;
 using System.Drawing;
 using BattleBall.Core.GameClients;
@@ -45,7 +44,7 @@ namespace BattleBall.Core.Rooms
             Session.SendMessage(new SerializeRoomUserComposer(Players.Values)); //Send all players in room to user
         }
 
-        internal void RemoveUserFromRoom(GameClient session)
+        internal void RemovePlayerFromRoom(GameClient session)
         {
             if (session == null)
                 return;
@@ -189,12 +188,12 @@ namespace BattleBall.Core.Rooms
 
         internal bool ValidTile(int x, int y)
         {
-            return x >= 0 && y >= 0 && x < Model.Cols && y < Model.Rows;
+            return x >= 0 && y >= 0 && x < Model.Cols && y < Model.Rows && Model.Layer[x, y] != 0;
         }
 
         public bool IsBlocked(int x, int y, bool lastTile)
         {
-            return !ValidTile(x, y) || PlayerMatrix[x, y] != 0 || Model.Layer[x, y] == 0;
+            return !ValidTile(x, y) || PlayerMatrix[x, y] != 0;
         }
 
         internal void OnPlayerWalksOnTile(RoomUser player, int x, int y)
@@ -204,9 +203,15 @@ namespace BattleBall.Core.Rooms
 
         internal void SendMessage(ServerMessage Message)
         {
-            foreach (RoomUser user in Players.Values)
+            lock (Players.Values)
             {
-                user.User.Session.SendMessage(Message);
+                foreach (RoomUser user in Players.Values)
+                {
+                    if (user != null)
+                    {
+                        user.User.Session.SendMessage(Message);
+                    }
+                }
             }
         }
 
