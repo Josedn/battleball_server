@@ -203,14 +203,17 @@ namespace BattleBall.Core.Rooms
 
         internal void SendMessage(ServerMessage Message)
         {
+            List<RoomUser> playersToSend;
             lock (Players.Values)
             {
-                foreach (RoomUser user in Players.Values)
+                playersToSend = new List<RoomUser>(Players.Values);
+            }
+
+            foreach (RoomUser user in playersToSend)
+            {
+                if (user != null)
                 {
-                    if (user != null)
-                    {
-                        user.User.Session.SendMessage(Message);
-                    }
+                    user.User.Session.SendMessage(Message);
                 }
             }
         }
