@@ -8,5 +8,6 @@
         public const int PLAYER_MOVEMENT = 8;
         public const int CHAT = 10;
         public const int PLAYER_REMOVE = 11;
+        public const int PLAYER_WAVE = 14;
     }
 }

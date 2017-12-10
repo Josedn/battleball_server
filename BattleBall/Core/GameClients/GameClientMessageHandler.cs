@@ -42,6 +42,7 @@ namespace BattleBall.Core.GameClients
             RequestHandlers[ClientOpCodes.REQUEST_MOVEMENT] = new RequestMovement();
             RequestHandlers[ClientOpCodes.REQUEST_CHAT] = new RequestChat();
             RequestHandlers[ClientOpCodes.REQUEST_LOOK_AT] = new RequestLookAt();
+            RequestHandlers[ClientOpCodes.REQUEST_WAVE] = new RequestWave();
         }
     }
 }

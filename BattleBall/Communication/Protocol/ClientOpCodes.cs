@@ -7,5 +7,6 @@
         public const int REQUEST_MOVEMENT = 7;
         public const int REQUEST_CHAT = 9;
         public const int REQUEST_LOOK_AT = 12;
+        public const int REQUEST_WAVE = 13;
     }
 }

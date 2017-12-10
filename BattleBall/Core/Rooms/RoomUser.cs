@@ -54,7 +54,12 @@ namespace BattleBall.Core.Rooms
             }
         }
 
-        public void MoveTo(int x, int y)
+        internal void Wave()
+        {
+            Room.SendMessage(new WaveComposer(UserId));
+        }
+
+        internal void MoveTo(int x, int y)
         {
             Logging.WriteLine(User.Username + " wants to move to " + x + ", " + y, ConsoleColor.Yellow);
             if (Room.ValidTile(x, y))
@@ -67,6 +72,8 @@ namespace BattleBall.Core.Rooms
 
         internal void Chat(string message)
         {
+            if (message.ToLower().Contains("o/"))
+                Wave();
             Room.SendMessage(new ChatComposer(UserId, message));
         }
         #endregion
