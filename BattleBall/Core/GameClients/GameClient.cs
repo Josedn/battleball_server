@@ -22,7 +22,6 @@ namespace BattleBall.Core.GameClients
         {
             Logging.WriteLine("RawMessage: '" + RawMessage + "'", ConsoleColor.Cyan);
             ClientMessage Message = new ClientMessage(RawMessage);
-            Logging.WriteLine("Id: '" + Message.Id + "'", ConsoleColor.Cyan);
 
             MessageHandler.HandleMessage(this, Message);
         }

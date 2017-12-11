@@ -30,7 +30,7 @@ namespace BattleBall.Core.GameClients
                 Logging.WriteLine("No handler for id: " + message.Id, ConsoleColor.Red);
                 return false;
             }
-
+            Logging.WriteLine("Handled by: '" + RequestHandlers[message.Id].GetType().Name + "'", ConsoleColor.Cyan);
             RequestHandlers[message.Id].Handle(session, message);
             return true;
         }
@@ -43,6 +43,7 @@ namespace BattleBall.Core.GameClients
             RequestHandlers[ClientOpCodes.REQUEST_CHAT] = new RequestChat();
             RequestHandlers[ClientOpCodes.REQUEST_LOOK_AT] = new RequestLookAt();
             RequestHandlers[ClientOpCodes.REQUEST_WAVE] = new RequestWave();
+            RequestHandlers[ClientOpCodes.REQUEST_ROOM_DATA] = new RequestRoomData();
         }
     }
 }

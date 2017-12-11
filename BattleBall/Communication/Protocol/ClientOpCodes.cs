@@ -8,5 +8,6 @@
         public const int REQUEST_CHAT = 9;
         public const int REQUEST_LOOK_AT = 12;
         public const int REQUEST_WAVE = 13;
+        public const int REQUEST_ROOM_DATA = 15;
     }
 }

@@ -4,11 +4,11 @@ using BattleBall.Core.GameClients;
 
 namespace BattleBall.Communication.Incoming.Rooms
 {
-    class RequestMap : IncomingEvent
+    class RequestRoomData : IncomingEvent
     {
         public void Handle(GameClient session, ClientMessage request)
         {
-            BattleEnvironment.Game.Room.SendModelToPlayer(session);
+            BattleEnvironment.Game.Room.AddPlayerToRoom(session);
         }
     }
 }

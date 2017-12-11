@@ -39,6 +39,7 @@
     <Compile Include="Communication\Incoming\Rooms\Login.cs" />
     <Compile Include="Communication\Incoming\Rooms\RequestChat.cs" />
     <Compile Include="Communication\Incoming\Rooms\RequestLookAt.cs" />
+    <Compile Include="Communication\Incoming\Rooms\RequestRoomData.cs" />
     <Compile Include="Communication\Incoming\Rooms\RequestMap.cs" />
     <Compile Include="Communication\Incoming\Rooms\RequestMovement.cs" />
     <Compile Include="Communication\Incoming\Rooms\RequestWave.cs" />
@@ -46,7 +47,9 @@
     <Compile Include="Communication\Outgoing\Rooms\LoginOkComposer.cs" />
     <Compile Include="Communication\Outgoing\Rooms\MapComposer.cs" />
     <Compile Include="Communication\Outgoing\Rooms\PlayerMovementComposer.cs" />
+    <Compile Include="Communication\Outgoing\Rooms\FurniRemoveComposer.cs" />
     <Compile Include="Communication\Outgoing\Rooms\PlayerRemoveComposer.cs" />
+    <Compile Include="Communication\Outgoing\Rooms\SerializeRoomItemComposer.cs" />
     <Compile Include="Communication\Outgoing\Rooms\SerializeRoomUserComposer.cs" />
     <Compile Include="Communication\Protocol\ServerOpCodes.cs" />
     <Compile Include="Core\Authenticator.cs" />
@@ -57,9 +60,11 @@
     <Compile Include="Communication\Protocol\ServerMessage.cs" />
     <Compile Include="Communication\Protocol\ClientOpCodes.cs" />
     <Compile Include="Core\GameClients\GameClientMessageHandler.cs" />
+    <Compile Include="Core\BaseItem.cs" />
     <Compile Include="Core\Rooms\Room.cs" />
     <Compile Include="Core\Rooms\MapModel.cs" />
     <Compile Include="Communication\Outgoing\Rooms\WaveComposer.cs" />
+    <Compile Include="Core\Rooms\RoomItem.cs" />
     <Compile Include="Core\User.cs" />
     <Compile Include="Misc\Logging.cs" />
     <Compile Include="Core\Rooms\RoomUser.cs" />

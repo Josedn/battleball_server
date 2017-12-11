@@ -9,5 +9,7 @@
         public const int CHAT = 10;
         public const int PLAYER_REMOVE = 11;
         public const int PLAYER_WAVE = 14;
+        public const int FURNI_DATA = 16;
+        public const int FURNI_REMOVE = 17;
     }
 }

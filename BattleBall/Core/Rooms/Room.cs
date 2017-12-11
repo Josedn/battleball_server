@@ -15,6 +15,7 @@ namespace BattleBall.Core.Rooms
 
         private MapModel Model;
         private Dictionary<int, RoomUser> Players;
+        private Dictionary<int, RoomItem> Items;
         private AStarSolver<Room> astarSolver;
 
         #endregion
@@ -26,22 +27,33 @@ namespace BattleBall.Core.Rooms
             this.PlayerMatrix = new int[Model.Cols, Model.Rows];
             this.GameMatrix = new int[Model.Cols, Model.Rows];
             this.Players = new Dictionary<int, RoomUser>();
+            this.Items = new Dictionary<int, RoomItem>();
             this.astarSolver = new AStarSolver<Room>(true, AStarHeuristicType.Between, this, Model.Cols, Model.Rows);
+            var shelves_norja = new BaseItem(1, 1, 1, 0);
+            var rare_dragonlamp = new BaseItem(2, 1, 1, 0);
+            var club_sofa = new BaseItem(3, 2, 1, 1.0);
+            Items.Add(1, new RoomItem(1, 2, 2, 0, 2, this, shelves_norja));
+            Items.Add(2, new RoomItem(2, 4, 4, 0, 2, this, rare_dragonlamp));
+            Items.Add(3, new RoomItem(3, 4, 6, 0, 2, this, club_sofa));
         }
         #endregion
 
         #region Methods
-
         internal void AddPlayerToRoom(GameClient Session)
         {
             RoomUser User = new RoomUser(Session.User.Id, Model.DoorX, Model.DoorY, 0, 2, Session.User, this);
             Session.User.CurrentRoom = this;
             Players.Add(User.UserId, User);
             PlayerMatrix[User.X, User.Y] = User.UserId;
-
-            Session.SendMessage(new MapComposer(Model)); //Send map data to player
+            
             SendMessage(new SerializeRoomUserComposer(User)); //Send new room user data to room
             Session.SendMessage(new SerializeRoomUserComposer(Players.Values)); //Send all players in room to user
+            Session.SendMessage(new SerializeRoomItemComposer(Items.Values)); //Send all furni in room to user
+        }
+
+        internal void SendModelToPlayer(GameClient Session)
+        {
+            Session.SendMessage(new MapComposer(Model)); //Send map data to player
         }
 
         internal void RemovePlayerFromRoom(GameClient session)
