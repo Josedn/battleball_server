@@ -29,12 +29,6 @@ namespace BattleBall.Core.Rooms
             this.Players = new Dictionary<int, RoomUser>();
             this.Items = new Dictionary<int, RoomItem>();
             this.astarSolver = new AStarSolver<Room>(true, AStarHeuristicType.Between, this, Model.Cols, Model.Rows);
-            var shelves_norja = new BaseItem(1, 1, 1, 0);
-            var rare_dragonlamp = new BaseItem(2, 1, 1, 0);
-            var club_sofa = new BaseItem(3, 2, 1, 1.0);
-            Items.Add(1, new RoomItem(1, 2, 2, 0, 2, this, shelves_norja));
-            Items.Add(2, new RoomItem(2, 4, 4, 0, 2, this, rare_dragonlamp));
-            Items.Add(3, new RoomItem(3, 4, 6, 0, 2, this, club_sofa));
         }
         #endregion
 

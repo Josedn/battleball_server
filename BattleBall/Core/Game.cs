@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using BattleBall.Net;
 using BattleBall.Core.Rooms;
 using BattleBall.Core.GameClients;
+using BattleBall.Core.Items;
 
 namespace BattleBall.Core
 {
@@ -14,6 +15,7 @@ namespace BattleBall.Core
         internal ConnectionManager ConnectionManager;
         internal GameClientManager ClientManager;
         internal Authenticator Authenticator;
+        internal BaseItemManager ItemManager;
         private const int DELTA_TIME = 500;
         #endregion
 
@@ -22,6 +24,12 @@ namespace BattleBall.Core
         {
             this.ClientManager = new GameClientManager();
             this.ConnectionManager = new ConnectionManager(ClientManager);
+
+            ItemManager = new BaseItemManager();
+            ItemManager.AddItem(1, 1, 1, 1, "shelves_norja");
+            ItemManager.AddItem(2, 1, 1, 1, "rare_dragonlamp");
+            ItemManager.AddItem(3, 2, 1, 1, "club_sofa");
+
 
             this.Authenticator = new Authenticator(this);
             this.Room = new Room(new MapModel());

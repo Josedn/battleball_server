@@ -60,7 +60,9 @@
     <Compile Include="Communication\Protocol\ServerMessage.cs" />
     <Compile Include="Communication\Protocol\ClientOpCodes.cs" />
     <Compile Include="Core\GameClients\GameClientMessageHandler.cs" />
-    <Compile Include="Core\BaseItem.cs" />
+    <Compile Include="Core\Items\BaseItem.cs" />
+    <Compile Include="Core\Items\BaseItemManager.cs" />
+    <Compile Include="Core\Rooms\GameMap.cs" />
     <Compile Include="Core\Rooms\Room.cs" />
     <Compile Include="Core\Rooms\MapModel.cs" />
     <Compile Include="Communication\Outgoing\Rooms\WaveComposer.cs" />
