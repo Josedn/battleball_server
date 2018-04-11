@@ -1,9 +1,12 @@
 ﻿using System.Collections.Generic;
-using BattleBall.AStar.Algorithm;
 using System.Drawing;
+using BattleBall.AStar.Algorithm;
+
 using BattleBall.Core.GameClients;
 using BattleBall.Communication.Protocol;
 using BattleBall.Communication.Outgoing.Rooms;
+using BattleBall.Core.Items;
+using BattleBall.Core.Rooms.Items;
 
 namespace BattleBall.Core.Rooms
 {
@@ -15,7 +18,7 @@ namespace BattleBall.Core.Rooms
 
         private MapModel Model;
         private Dictionary<int, RoomUser> Players;
-        private Dictionary<int, RoomItem> Items;
+        internal RoomItemManager RoomItemManager;
         private AStarSolver<Room> astarSolver;
 
         #endregion
@@ -27,22 +30,25 @@ namespace BattleBall.Core.Rooms
             this.PlayerMatrix = new int[Model.Cols, Model.Rows];
             this.GameMatrix = new int[Model.Cols, Model.Rows];
             this.Players = new Dictionary<int, RoomUser>();
-            this.Items = new Dictionary<int, RoomItem>();
+            //this.RoomItems = new Dictionary<int, RoomItem>();
+            this.RoomItemManager = new RoomItemManager(this);
             this.astarSolver = new AStarSolver<Room>(true, AStarHeuristicType.Between, this, Model.Cols, Model.Rows);
         }
         #endregion
 
         #region Methods
+        
+
         internal void AddPlayerToRoom(GameClient Session)
         {
-            RoomUser User = new RoomUser(Session.User.Id, Model.DoorX, Model.DoorY, 0, 2, Session.User, this);
+            RoomUser User = new RoomUser(Session.User.Id, Model.DoorX, Model.DoorY, Model.DoorZ, Model.DoorRot, Session.User, this);
             Session.User.CurrentRoom = this;
             Players.Add(User.UserId, User);
             PlayerMatrix[User.X, User.Y] = User.UserId;
             
             SendMessage(new SerializeRoomUserComposer(User)); //Send new room user data to room
             Session.SendMessage(new SerializeRoomUserComposer(Players.Values)); //Send all players in room to user
-            Session.SendMessage(new SerializeRoomItemComposer(Items.Values)); //Send all furni in room to user
+            Session.SendMessage(new SerializeRoomItemComposer(RoomItemManager.RoomItems.Values)); //Send all furni in room to user
         }
 
         internal void SendModelToPlayer(GameClient Session)

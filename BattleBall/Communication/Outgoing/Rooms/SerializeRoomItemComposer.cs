@@ -1,10 +1,6 @@
 ﻿using BattleBall.Communication.Protocol;
-using BattleBall.Core.Rooms;
-using System;
+using BattleBall.Core.Rooms.Items;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BattleBall.Communication.Outgoing.Rooms
 {
@@ -34,6 +30,7 @@ namespace BattleBall.Communication.Outgoing.Rooms
                 AppendString(item.Z.ToString());
                 AppendInt(item.Rot);
                 AppendInt(item.BaseItem.BaseId);
+                AppendInt(item.State);
             }
         }
 

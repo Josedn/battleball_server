@@ -22,6 +22,7 @@ namespace BattleBall
                 switch (args[0])
                 {
                     case "exit":
+                    case "stop":
                         {
                             Logging.WriteLine("Stopping server...", ConsoleColor.Yellow);
                             return;
@@ -33,9 +34,20 @@ namespace BattleBall
                         }
                     case "move":
                         {
-                            int x = int.Parse(args[1]);
-                            int y = int.Parse(args[2]);
-                            Game.Room.MovePlayersTo(x, y);
+                            try
+                            {
+                                int x = int.Parse(args[1]);
+                                int y = int.Parse(args[2]);
+                                Game.Room.MovePlayersTo(x, y);
+                            }
+                            catch (FormatException)
+                            {
+                                Logging.WriteLine("Invalid args", ConsoleColor.Red);
+                            }
+                            catch (Exception)
+                            {
+                                
+                            }
                             break;
                         }
                     case "status":

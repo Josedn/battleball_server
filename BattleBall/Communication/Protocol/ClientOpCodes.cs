@@ -9,5 +9,6 @@
         public const int REQUEST_LOOK_AT = 12;
         public const int REQUEST_WAVE = 13;
         public const int REQUEST_ROOM_DATA = 15;
+        public const int REQUEST_FURNI_INTERACT = 18;
     }
 }

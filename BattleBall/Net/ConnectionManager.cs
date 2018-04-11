@@ -7,7 +7,7 @@ namespace BattleBall.Net
         private WebSocketServer server;
         private ISocketHandler messageHandler;
 
-        internal ConnectionManager(ISocketHandler MessageHandler, int Port = 8181)
+        internal ConnectionManager(ISocketHandler MessageHandler, int Port)
         {
             FleckLog.Level = LogLevel.Warn;
             this.server = new WebSocketServer("ws://0.0.0.0:" + Port);

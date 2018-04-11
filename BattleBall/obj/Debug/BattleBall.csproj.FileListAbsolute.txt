@@ -38,3 +38,14 @@ C:\Users\joser\Desktop\battleball_poc_server\BattleBall\obj\Debug\BattleBall.csp
 C:\Users\joser\Desktop\battleball_poc_server\BattleBall\obj\Debug\BattleBall.csproj.CoreCompileInputs.cache
 C:\Users\joser\Desktop\battleball_poc_server\BattleBall\obj\Debug\BattleBall.exe
 C:\Users\joser\Desktop\battleball_poc_server\BattleBall\obj\Debug\BattleBall.pdb
+C:\Users\joser\Documents\Things\battleball_poc_server\BattleBall\bin\Debug\BattleBall.exe.config
+C:\Users\joser\Documents\Things\battleball_poc_server\BattleBall\bin\Debug\BattleBall.exe
+C:\Users\joser\Documents\Things\battleball_poc_server\BattleBall\bin\Debug\BattleBall.pdb
+C:\Users\joser\Documents\Things\battleball_poc_server\BattleBall\bin\Debug\Astar.dll
+C:\Users\joser\Documents\Things\battleball_poc_server\BattleBall\bin\Debug\Fleck.dll
+C:\Users\joser\Documents\Things\battleball_poc_server\BattleBall\bin\Debug\Astar.pdb
+C:\Users\joser\Documents\Things\battleball_poc_server\BattleBall\bin\Debug\Fleck.pdb
+C:\Users\joser\Documents\Things\battleball_poc_server\BattleBall\obj\Debug\BattleBall.csprojResolveAssemblyReference.cache
+C:\Users\joser\Documents\Things\battleball_poc_server\BattleBall\obj\Debug\BattleBall.csproj.CoreCompileInputs.cache
+C:\Users\joser\Documents\Things\battleball_poc_server\BattleBall\obj\Debug\BattleBall.exe
+C:\Users\joser\Documents\Things\battleball_poc_server\BattleBall\obj\Debug\BattleBall.pdb

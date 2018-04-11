@@ -11,5 +11,6 @@
         public const int PLAYER_WAVE = 14;
         public const int FURNI_DATA = 16;
         public const int FURNI_REMOVE = 17;
+        public const int FURNI_STATE = 19;
     }
 }

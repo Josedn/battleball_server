@@ -44,6 +44,14 @@ namespace BattleBall.Core.Rooms
         #endregion
 
         #region Methods
+        internal void FurniInteract(int itemId)
+        {
+            if (Room != null)
+            {
+                Room.RoomItemManager.FurniInteract(this, itemId);
+            }
+        }
+
         internal void LookAt(int userId)
         {
             RoomUser otherUser = Room.GetRoomUserByUserId(userId);

@@ -1,18 +1,19 @@
-﻿using BattleBall.Communication.Protocol;
+﻿using System;
+using BattleBall.Communication.Protocol;
 using BattleBall.Core.GameClients;
 using BattleBall.Core.Rooms;
 
 namespace BattleBall.Communication.Incoming.Rooms
 {
-    class RequestChat : IncomingEvent
+    class RequestFurniInteract : IncomingEvent
     {
         public void Handle(GameClient session, ClientMessage request)
         {
-            string chat = request.PopString();
+            int itemId = request.PopInt();
 
             RoomUser user = session.User.CurrentRoomUser;
             if (user != null)
-                user.Chat(chat);
+                user.FurniInteract(itemId);
         }
     }
 }

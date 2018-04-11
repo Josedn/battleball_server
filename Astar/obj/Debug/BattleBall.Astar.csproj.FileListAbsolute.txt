@@ -20,3 +20,9 @@ C:\Users\joser\Desktop\battleball_poc_server\Astar\obj\Debug\BattleBall.AStar.cs
 C:\Users\joser\Desktop\battleball_poc_server\Astar\obj\Debug\BattleBall.AStar.csproj.CoreCompileInputs.cache
 C:\Users\joser\Desktop\battleball_poc_server\Astar\obj\Debug\Astar.dll
 C:\Users\joser\Desktop\battleball_poc_server\Astar\obj\Debug\Astar.pdb
+C:\Users\joser\Documents\Things\battleball_poc_server\Astar\bin\Debug\Astar.dll
+C:\Users\joser\Documents\Things\battleball_poc_server\Astar\bin\Debug\Astar.pdb
+C:\Users\joser\Documents\Things\battleball_poc_server\Astar\obj\Debug\BattleBall.AStar.csprojResolveAssemblyReference.cache
+C:\Users\joser\Documents\Things\battleball_poc_server\Astar\obj\Debug\BattleBall.AStar.csproj.CoreCompileInputs.cache
+C:\Users\joser\Documents\Things\battleball_poc_server\Astar\obj\Debug\Astar.dll
+C:\Users\joser\Documents\Things\battleball_poc_server\Astar\obj\Debug\Astar.pdb

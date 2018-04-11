@@ -22,17 +22,25 @@ namespace BattleBall.Core
         #region Constructor
         internal Game()
         {
-            this.ClientManager = new GameClientManager();
-            this.ConnectionManager = new ConnectionManager(ClientManager);
+            ClientManager = new GameClientManager();
+            ConnectionManager = new ConnectionManager(ClientManager, 443);
 
             ItemManager = new BaseItemManager();
-            ItemManager.AddItem(1, 1, 1, 1, "shelves_norja");
-            ItemManager.AddItem(2, 1, 1, 1, "rare_dragonlamp");
-            ItemManager.AddItem(3, 2, 1, 1, "club_sofa");
 
+            BaseItem shelves_norja = ItemManager.AddItem(ItemType.RoomItem, 13, 1, 1, 0, "shelves_norja", 1, false, false, false, new System.Collections.Generic.List<int>() { 0, 2 });
+            BaseItem rare_dragon = ItemManager.AddItem(ItemType.RoomItem, 1620, 1, 1, 0, "rare_dragonlamp*0", 2, false, false, false, new System.Collections.Generic.List<int>() { 2, 4 });
+            BaseItem hologram = ItemManager.AddItem(ItemType.RoomItem, 234, 1, 1, 0, "hologram", 2, false, false, false, new System.Collections.Generic.List<int>() { 0 });
+            BaseItem club_sofa = ItemManager.AddItem(ItemType.RoomItem, 267, 2, 1, 0, "club_sofa", 1, false, false, true, new System.Collections.Generic.List<int>() { 0, 2, 4, 6 });
 
-            this.Authenticator = new Authenticator(this);
-            this.Room = new Room(new MapModel());
+            Authenticator = new Authenticator(this);
+            Room = new Room(new MapModel());
+
+            Room.RoomItemManager.AddRoomItemToRoom(1, 3, 3, 0, shelves_norja.Directions[0], shelves_norja);
+            Room.RoomItemManager.AddRoomItemToRoom(2, 6, 2, 0, rare_dragon.Directions[1], rare_dragon);
+            Room.RoomItemManager.AddRoomItemToRoom(3, 3, 8, 0, hologram.Directions[0], hologram);
+            Room.RoomItemManager.AddRoomItemToRoom(4, 6, 6, 0, club_sofa.Directions[1], club_sofa);
+            Room.RoomItemManager.AddRoomItemToRoom(5, 6, 8, 0, club_sofa.Directions[1], club_sofa);
+
             Task RoomThread = new Task(OnCycle);
             RoomThread.Start();
         }
