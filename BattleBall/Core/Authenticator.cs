@@ -20,13 +20,13 @@ namespace BattleBall.Core
             if (session.User == null)
             {
                 session.User = new User(NextId++, username, look, session);
-                Logging.WriteLine(username + " (" + session.User.Id + ") has logged in!", ConsoleColor.Green);
+                Logging.WriteLine(username + " (" + session.User.Id + ") has logged in!", ConsoleColor.Green, LogLevel.Verbose);
 
                 session.SendMessage(new LoginOkComposer());
             }
             else
             {
-                Logging.WriteLine("Client already logged!", ConsoleColor.Red);
+                Logging.WriteLine("Client already logged!", ConsoleColor.Red, LogLevel.Warning);
                 session.Stop();
             }
         }

@@ -44,7 +44,7 @@ namespace BattleBall.Core
             if (disconnected)
                 return;
 
-            Logging.WriteLine(Username + " has logged out", ConsoleColor.Red);
+            Logging.WriteLine(Username + " has logged out", ConsoleColor.Red, LogLevel.Verbose);
             if (CurrentRoom != null)
             {
                 CurrentRoom.RemovePlayerFromRoom(Session);

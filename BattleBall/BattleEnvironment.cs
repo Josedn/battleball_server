@@ -12,7 +12,8 @@ namespace BattleBall
         {
             Game = new Game();
 
-            Logging.WriteLine("The environment has initialized successfully. Ready for connections.", ConsoleColor.Green);
+            Logging.WriteLine("The environment has initialized successfully. Ready for connections.", ConsoleColor.Green, LogLevel.Info);
+            Logging.SetLogLevel(LogLevel.Verbose);
 
             string command;
             while (true)
@@ -24,12 +25,12 @@ namespace BattleBall
                     case "exit":
                     case "stop":
                         {
-                            Logging.WriteLine("Stopping server...", ConsoleColor.Yellow);
+                            Logging.WriteLine("Stopping server...", ConsoleColor.Yellow, LogLevel.Info);
                             return;
                         }
                     default:
                         {
-                            Logging.WriteLine("Invalid command", ConsoleColor.Red);
+                            Logging.WriteLine("Invalid command", ConsoleColor.Red, LogLevel.Info);
                             break;
                         }
                     case "move":
@@ -42,7 +43,7 @@ namespace BattleBall
                             }
                             catch (FormatException)
                             {
-                                Logging.WriteLine("Invalid args", ConsoleColor.Red);
+                                Logging.WriteLine("Invalid args", ConsoleColor.Red, LogLevel.Info);
                             }
                             catch (Exception)
                             {
@@ -52,7 +53,7 @@ namespace BattleBall
                         }
                     case "status":
                         {
-                            Logging.WriteLine("OnlineCount: " + Game.ClientManager.Clients.Count, ConsoleColor.Yellow);
+                            Logging.WriteLine("OnlineCount: " + Game.ClientManager.Clients.Count, ConsoleColor.Yellow, LogLevel.Info);
                             break;
                         }
                 }

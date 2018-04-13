@@ -2,30 +2,44 @@
 
 namespace BattleBall.Misc
 {
-    class Logging
+    public enum LogLevel
     {
+        SuperDebug,
+        Debug,
+        Verbose,
+        Warning,
+        Info,
+        None,
+    }
+
+    public static class Logging
+    { 
+        public static LogLevel LogLevel = LogLevel.Verbose;
+
+        public static void SetLogLevel(LogLevel logLevel)
+        {
+            LogLevel = logLevel;
+        }
+
         public static void ResetColor()
         {
             Console.ResetColor();
         }
-        public static void WriteLine()
+
+        public static void WriteLine(object o, ConsoleColor c, LogLevel logLevel)
         {
-            Console.WriteLine();
-        }
-        public static void WriteLine(object o, ConsoleColor c)
-        {
-            if (Console.ForegroundColor != c)
-                Console.ForegroundColor = c;
-            Console.WriteLine(o);
-            ResetColor();
+            if (LogLevel <= logLevel)
+            {
+                if (Console.ForegroundColor != c)
+                    Console.ForegroundColor = c;
+                Console.WriteLine("[" + logLevel.ToString().ToUpper() + "] - " + o);
+                ResetColor();
+            }
         }
 
-        public static void Write(object o, ConsoleColor c)
+        public static void WriteLine(object o, LogLevel logLevel)
         {
-            if (Console.ForegroundColor != c)
-                Console.ForegroundColor = c;
-            Console.Write(o);
-            ResetColor();
+            WriteLine(o, ConsoleColor.Gray, LogLevel);
         }
     }
 }

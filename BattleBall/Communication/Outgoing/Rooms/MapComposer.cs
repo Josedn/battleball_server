@@ -16,7 +16,7 @@ namespace BattleBall.Communication.Outgoing.Rooms
             {
                 for (int j = 0; j < model.Rows; j++)
                 {
-                    AppendInt(model.Layer[i, j]);
+                    AppendInt(model.Map[i, j]);
                 }
             }
         }

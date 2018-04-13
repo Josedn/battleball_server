@@ -37,7 +37,7 @@ namespace BattleBall.Core.GameClients
                 }
                 catch (KeyNotFoundException)
                 {
-                    Logging.WriteLine("Client key not found " + socket.ConnectionInfo.Id, ConsoleColor.Red);
+                    Logging.WriteLine("Client key not found " + socket.ConnectionInfo.Id, ConsoleColor.Red, Misc.LogLevel.Warning);
                 }
             }
         }

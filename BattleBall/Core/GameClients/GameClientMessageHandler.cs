@@ -21,16 +21,16 @@ namespace BattleBall.Core.GameClients
         {
             if (message.Id < 0 || message.Id > HIGHEST_MESSAGE_ID)
             {
-                Logging.WriteLine("MessageId out of protocol request.", ConsoleColor.Red);
+                Logging.WriteLine("MessageId out of protocol request.", ConsoleColor.Red, LogLevel.Debug);
                 return false;
             }
 
             if (RequestHandlers[message.Id] == null)
             {
-                Logging.WriteLine("No handler for id: " + message.Id, ConsoleColor.Red);
+                Logging.WriteLine("No handler for id: " + message.Id, ConsoleColor.Red, LogLevel.Debug);
                 return false;
             }
-            Logging.WriteLine("Handled by: '" + RequestHandlers[message.Id].GetType().Name + "'", ConsoleColor.Cyan);
+            Logging.WriteLine("Handled by: '" + RequestHandlers[message.Id].GetType().Name + "'", ConsoleColor.Cyan, LogLevel.Debug);
             RequestHandlers[message.Id].Handle(session, message);
             return true;
         }

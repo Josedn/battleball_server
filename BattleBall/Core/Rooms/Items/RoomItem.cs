@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Drawing;
 using BattleBall.Communication.Outgoing.Rooms;
 using BattleBall.Communication.Protocol;
 using BattleBall.Core.Items;
@@ -16,6 +18,7 @@ namespace BattleBall.Core.Rooms.Items
         public bool NeedsUpdate { get; set; }
         internal BaseItem BaseItem;
         internal RoomItemInteractor Interactor;
+        private List<Point> coords;
 
         public RoomItem(int itemId, int x, int y, double z, int rot, Room room, BaseItem baseItem)
         {
@@ -32,6 +35,19 @@ namespace BattleBall.Core.Rooms.Items
                 Interactor = new InteractorGeneric(this);
             else
                 Interactor = new InteractorNone(this);
+        }
+
+        internal List<Point> Coords
+        {
+            get
+            {
+                if (NeedsUpdate || coords == null)
+                {
+                    coords = GameMap.GetAffectedTiles(BaseItem.X, BaseItem.Y, X, Y, Rot);
+                    coords.Add(new Point(X, Y));
+                }
+                return coords;
+            }
         }
 
         internal void UpdateState()

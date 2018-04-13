@@ -31,6 +31,7 @@ namespace BattleBall.Core
             BaseItem rare_dragon = ItemManager.AddItem(ItemType.RoomItem, 1620, 1, 1, 0, "rare_dragonlamp*0", 2, false, false, false, new System.Collections.Generic.List<int>() { 2, 4 });
             BaseItem hologram = ItemManager.AddItem(ItemType.RoomItem, 234, 1, 1, 0, "hologram", 2, false, false, false, new System.Collections.Generic.List<int>() { 0 });
             BaseItem club_sofa = ItemManager.AddItem(ItemType.RoomItem, 267, 2, 1, 0, "club_sofa", 1, false, false, true, new System.Collections.Generic.List<int>() { 0, 2, 4, 6 });
+            BaseItem doorD = ItemManager.AddItem(ItemType.RoomItem, 1505, 1, 1, 0, "doorD", 3, false, true, false, new System.Collections.Generic.List<int>() { 2, 4 });
 
             Authenticator = new Authenticator(this);
             Room = new Room(new MapModel());
@@ -40,6 +41,8 @@ namespace BattleBall.Core
             Room.RoomItemManager.AddRoomItemToRoom(3, 3, 8, 0, hologram.Directions[0], hologram);
             Room.RoomItemManager.AddRoomItemToRoom(4, 6, 6, 0, club_sofa.Directions[1], club_sofa);
             Room.RoomItemManager.AddRoomItemToRoom(5, 6, 8, 0, club_sofa.Directions[1], club_sofa);
+            Room.RoomItemManager.AddRoomItemToRoom(6, 1, 9, 0, doorD.Directions[0], doorD);
+            Room.RoomItemManager.AddRoomItemToRoom(7, 1, 0, 0, doorD.Directions[1], doorD);
 
             Task RoomThread = new Task(OnCycle);
             RoomThread.Start();

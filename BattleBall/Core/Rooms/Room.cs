@@ -14,9 +14,9 @@ namespace BattleBall.Core.Rooms
     {
         #region Fields
         private int[,] PlayerMatrix;
-        private int[,] GameMatrix;
+        //private int[,] GameMatrix;
 
-        private MapModel Model;
+        private MapModel Model { get; }
         private Dictionary<int, RoomUser> Players;
         internal RoomItemManager RoomItemManager;
         private AStarSolver<Room> astarSolver;
@@ -28,7 +28,7 @@ namespace BattleBall.Core.Rooms
         {
             this.Model = model;
             this.PlayerMatrix = new int[Model.Cols, Model.Rows];
-            this.GameMatrix = new int[Model.Cols, Model.Rows];
+            //this.GameMatrix = new int[Model.Cols, Model.Rows];
             this.Players = new Dictionary<int, RoomUser>();
             //this.RoomItems = new Dictionary<int, RoomItem>();
             this.RoomItemManager = new RoomItemManager(this);
@@ -43,10 +43,9 @@ namespace BattleBall.Core.Rooms
         {
             RoomUser User = new RoomUser(Session.User.Id, Model.DoorX, Model.DoorY, Model.DoorZ, Model.DoorRot, Session.User, this);
             Session.User.CurrentRoom = this;
-            Players.Add(User.UserId, User);
-            PlayerMatrix[User.X, User.Y] = User.UserId;
             
             SendMessage(new SerializeRoomUserComposer(User)); //Send new room user data to room
+            Players.Add(User.UserId, User); //Add new room user to users list
             Session.SendMessage(new SerializeRoomUserComposer(Players.Values)); //Send all players in room to user
             Session.SendMessage(new SerializeRoomItemComposer(RoomItemManager.RoomItems.Values)); //Send all furni in room to user
         }
@@ -169,7 +168,6 @@ namespace BattleBall.Core.Rooms
                     //Console.WriteLine(player.UserId + "'s is moving...");
                     if (player.Path.Count > 1)
                     {
-                        PlayerMatrix[player.X, player.Y] = 0;
                         //TODO: Check if player is candidate tile is valid
 
                         OnPlayerWalksOffTile(player, player.X, player.Y);
@@ -200,7 +198,7 @@ namespace BattleBall.Core.Rooms
 
         internal bool ValidTile(int x, int y)
         {
-            return x >= 0 && y >= 0 && x < Model.Cols && y < Model.Rows && Model.Layer[x, y] != 0;
+            return x >= 0 && y >= 0 && x < Model.Cols && y < Model.Rows && Model.Map[x, y] != 0;
         }
 
         public bool IsBlocked(int x, int y, bool lastTile)
@@ -210,7 +208,8 @@ namespace BattleBall.Core.Rooms
 
         internal void OnPlayerWalksOnTile(RoomUser player, int x, int y)
         {
-            GameMatrix[x, y] = (int)player.Team;
+            //GameMatrix[x, y] = (int)player.Team;
+            PlayerMatrix[x, y] = player.UserId;
         }
 
         internal void SendMessage(ServerMessage Message)
@@ -232,7 +231,7 @@ namespace BattleBall.Core.Rooms
 
         internal void OnPlayerWalksOffTile(RoomUser player, int x, int y)
         {
-
+            PlayerMatrix[player.X, player.Y] = 0;
         }
         #endregion
     }

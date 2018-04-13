@@ -17,7 +17,6 @@ namespace BattleBall.Core.Rooms
 		internal bool PathRecalcNeeded;
 
         public Room Room { get; }
-        public Team Team { get; set; }
         public LinkedList<Point> Path { get; set; }
         public bool NeedsUpdate { get; set; }
 
@@ -37,7 +36,6 @@ namespace BattleBall.Core.Rooms
             this.IsMoving = false;
             this.PathRecalcNeeded = false;
             this.Path = new LinkedList<Point>();
-            this.Team = Team.None;
             this.User = user;
             this.Room = room;
         }
@@ -69,7 +67,7 @@ namespace BattleBall.Core.Rooms
 
         internal void MoveTo(int x, int y)
         {
-            Logging.WriteLine(User.Username + " wants to move to " + x + ", " + y, ConsoleColor.Yellow);
+            Logging.WriteLine(User.Username + " wants to move to " + x + ", " + y, ConsoleColor.Yellow, LogLevel.Debug);
             if (Room.ValidTile(x, y))
             {
                 this.TargetX = x;
