@@ -27,7 +27,7 @@ namespace BattleBall.Communication.Outgoing.Rooms
                 AppendInt(item.ItemId);
                 AppendInt(item.X);
                 AppendInt(item.Y);
-                AppendString(item.Z.ToString());
+                AppendFloat(item.Z);
                 AppendInt(item.Rot);
                 AppendInt(item.BaseItem.BaseId);
                 AppendInt(item.State);

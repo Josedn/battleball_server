@@ -2,8 +2,8 @@
 {
     class MapModel
     {
-        public int Cols = 40;
-        public int Rows = 40;
+        public int Cols = 9;
+        public int Rows = 13;
         public int TSize = 64;
         public int DoorX = 0;
         public int DoorY = 4;

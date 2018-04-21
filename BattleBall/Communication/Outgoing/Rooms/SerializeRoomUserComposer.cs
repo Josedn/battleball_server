@@ -28,7 +28,7 @@ namespace BattleBall.Communication.Outgoing.Rooms
                 AppendInt(Player.UserId);
                 AppendInt(Player.X);
                 AppendInt(Player.Y);
-                AppendString(Player.Z.ToString());
+                AppendFloat(Player.Z);
                 AppendInt(Player.Rot);
                 AppendString(Player.User.Username);
                 AppendString(Player.User.Look);

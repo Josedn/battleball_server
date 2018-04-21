@@ -16,7 +16,7 @@ namespace BattleBall.Core.Rooms
         private int[,] PlayerMatrix;
         //private int[,] GameMatrix;
 
-        private MapModel Model { get; }
+        public MapModel Model { get; }
         private Dictionary<int, RoomUser> Players;
         internal RoomItemManager RoomItemManager;
         private AStarSolver<Room> astarSolver;

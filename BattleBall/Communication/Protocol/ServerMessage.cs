@@ -19,6 +19,10 @@
         {
             AppendToken(i.ToString());
         }
+        public void AppendFloat(double d)
+        {
+            AppendToken(d.ToString().Replace(',', '.'));
+        }
 
         public void AppendString(string str)
         {
