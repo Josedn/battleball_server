@@ -51,6 +51,7 @@
     <Compile Include="Communication\Outgoing\Rooms\PlayerMovementComposer.cs" />
     <Compile Include="Communication\Outgoing\Rooms\FurniRemoveComposer.cs" />
     <Compile Include="Communication\Outgoing\Rooms\PlayerRemoveComposer.cs" />
+    <Compile Include="Communication\Outgoing\Rooms\SerializeWallItemComposer.cs" />
     <Compile Include="Communication\Outgoing\Rooms\SerializeRoomItemComposer.cs" />
     <Compile Include="Communication\Outgoing\Rooms\SerializeRoomUserComposer.cs" />
     <Compile Include="Communication\Protocol\ServerOpCodes.cs" />
@@ -70,6 +71,7 @@
     <Compile Include="Core\Rooms\Items\InteractorNone.cs" />
     <Compile Include="Core\Rooms\Items\RoomItemInteractor.cs" />
     <Compile Include="Core\Rooms\Items\RoomItemManager.cs" />
+    <Compile Include="Core\Rooms\Items\WallItem.cs" />
     <Compile Include="Core\Rooms\Room.cs" />
     <Compile Include="Core\Rooms\MapModel.cs" />
     <Compile Include="Communication\Outgoing\Rooms\WaveComposer.cs" />

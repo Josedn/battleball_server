@@ -28,40 +28,43 @@ namespace BattleBall.Core
 
             ItemManager = new BaseItemManager();
 
-            BaseItem shelves_norja = ItemManager.AddItem(ItemType.RoomItem, 13, 1, 1, 0, "shelves_norja", 1, false, false, false, new List<int>() { 0, 2 });
-            BaseItem rare_dragon = ItemManager.AddItem(ItemType.RoomItem, 1620, 1, 1, 0, "rare_dragonlamp*0", 2, false, false, false, new List<int>() { 2, 4 });
-            BaseItem hologram = ItemManager.AddItem(ItemType.RoomItem, 234, 1, 1, 0, "hologram", 2, false, false, false, new List<int>() { 0 });
-            BaseItem club_sofa = ItemManager.AddItem(ItemType.RoomItem, 267, 2, 1, 0, "club_sofa", 1, false, false, true, new List<int>() { 0, 2, 4, 6 });
-            BaseItem doorD = ItemManager.AddItem(ItemType.RoomItem, 1505, 1, 1, 0, "doorD", 3, false, true, false, new List<int>() { 2, 4 });
-            BaseItem tile_brown = ItemManager.AddItem(ItemType.RoomItem, 2582, 1, 1, 0.1, "tile_brown", 1, false, true, false, new List<int>() { 0 });
-            BaseItem tile_marble = ItemManager.AddItem(ItemType.RoomItem, 2566, 1, 1, 0.1, "tile_marble", 1, false, true, false, new List<int>() { 0 });
+            int baseItemId = 0;
+
+            BaseItem shelves_norja = ItemManager.AddRoomItem(baseItemId++, 13, 1, 1, 0, "shelves_norja", 1, false, false, false, new List<int>() { 0, 2 });
+            BaseItem rare_dragon = ItemManager.AddRoomItem(baseItemId++, 1620, 1, 1, 0, "rare_dragonlamp*0", 2, false, false, false, new List<int>() { 2, 4 });
+            BaseItem hologram = ItemManager.AddRoomItem(baseItemId++, 234, 1, 1, 0, "hologram", 2, false, false, false, new List<int>() { 0 });
+            BaseItem club_sofa = ItemManager.AddRoomItem(baseItemId++, 267, 2, 1, 0, "club_sofa", 1, false, false, true, new List<int>() { 0, 2, 4, 6 });
+            BaseItem doorD = ItemManager.AddRoomItem(baseItemId++, 1505, 1, 1, 0, "doorD", 3, false, true, false, new List<int>() { 2, 4 });
+            BaseItem tile_brown = ItemManager.AddRoomItem(baseItemId++, 2582, 1, 1, 0.15, "tile_brown", 1, false, true, false, new List<int>() { 0 });
+            BaseItem tile_marble = ItemManager.AddRoomItem(baseItemId++, 2566, 1, 1, 0.15, "tile_marble", 1, false, true, false, new List<int>() { 0 });
+
+            BaseItem hc_wall_lamp = ItemManager.AddWallItem(baseItemId++, 4003, "hc_wall_lamp", 2);
+            BaseItem flag_mexico = ItemManager.AddWallItem(baseItemId++, 4250, "flag_mexico", 2);
+            BaseItem flag_columbia = ItemManager.AddWallItem(baseItemId++, 4258, "flag_columbia", 1);
 
             Authenticator = new Authenticator(this);
             Room = new Room(new MapModel());
-            double z = 0;
-            Room.RoomItemManager.AddRoomItemToRoom(1, 3, 3, z, shelves_norja.Directions[0], shelves_norja);
-            Room.RoomItemManager.AddRoomItemToRoom(2, 6, 2, z, rare_dragon.Directions[1], rare_dragon);
-            Room.RoomItemManager.AddRoomItemToRoom(3, 3, 8, z, hologram.Directions[0], hologram);
-            Room.RoomItemManager.AddRoomItemToRoom(4, 6, 6, z, club_sofa.Directions[1], club_sofa);
-            Room.RoomItemManager.AddRoomItemToRoom(5, 6, 8, z, club_sofa.Directions[1], club_sofa);
-            Room.RoomItemManager.AddRoomItemToRoom(6, 1, 9, z, doorD.Directions[0], doorD);
-            /*Room.RoomItemManager.AddRoomItemToRoom(7, 1, 0, z, doorD.Directions[1], doorD);
-            int itemId = 8;
+            double z = 0.15;
+            int itemId = 0;
+            Room.RoomItemManager.AddRoomItemToRoom(itemId++, 3, 3, z, shelves_norja.Directions[0], shelves_norja);
+            Room.RoomItemManager.AddRoomItemToRoom(itemId++, 6, 2, z, rare_dragon.Directions[1], rare_dragon);
+            Room.RoomItemManager.AddRoomItemToRoom(itemId++, 3, 8, z, hologram.Directions[0], hologram);
+            Room.RoomItemManager.AddRoomItemToRoom(itemId++, 6, 6, z, club_sofa.Directions[1], club_sofa);
+            Room.RoomItemManager.AddRoomItemToRoom(itemId++, 6, 8, z, club_sofa.Directions[1], club_sofa);
+            Room.RoomItemManager.AddRoomItemToRoom(itemId++, 1, 10, z, doorD.Directions[0], doorD);
+            Room.RoomItemManager.AddRoomItemToRoom(itemId++, 1, 0, z, doorD.Directions[1], doorD);
+
+            Room.RoomItemManager.AddWallItemToRoom(itemId++, 160, 0, 4, hc_wall_lamp);
+            Room.RoomItemManager.AddWallItemToRoom(itemId++, -190, 59, 2, flag_mexico);
+            Room.RoomItemManager.AddWallItemToRoom(itemId++, -130, 30, 2, flag_columbia);
+
             for (int i = 1; i < Room.Model.Cols; i++)
             {
                 for (int j = 0; j < Room.Model.Rows; j++)
                 {
                     Room.RoomItemManager.AddRoomItemToRoom(itemId++, i, j, 0, 0, i % 2 == 0 ? tile_brown : tile_marble);
                 }
-            }
-            for (int i = 1; i < Room.Model.Cols; i++)
-            {
-                for (int j = 0; j < Room.Model.Rows; j++)
-                {
-                    Room.RoomItemManager.AddRoomItemToRoom(itemId++, i, j, 0.1, 0, i % 2 == 0 ? tile_brown : tile_marble);
-                }
-            }
-            */
+            }            
 
             Task RoomThread = new Task(OnCycle);
             RoomThread.Start();

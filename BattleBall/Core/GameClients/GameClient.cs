@@ -20,7 +20,7 @@ namespace BattleBall.Core.GameClients
 
         internal void HandleMessage(string RawMessage)
         {
-            Logging.WriteLine("RawMessage: '" + RawMessage + "'", ConsoleColor.Cyan, Misc.LogLevel.SuperDebug);
+            Logging.WriteLine("Received: '" + RawMessage + "'", ConsoleColor.DarkCyan, Misc.LogLevel.SuperDebug);
             ClientMessage Message = new ClientMessage(RawMessage);
 
             MessageHandler.HandleMessage(this, Message);
@@ -42,7 +42,8 @@ namespace BattleBall.Core.GameClients
 
         internal void SendMessage(ServerMessage Message)
         {
-            Logging.WriteLine("Sent: " + Message.ToString(), ConsoleColor.Yellow, Misc.LogLevel.SuperDebug);
+            Logging.WriteLine("Sent: '" + Message.ToString() + "'", ConsoleColor.DarkYellow, Misc.LogLevel.SuperDebug);
+            Logging.WriteLine("Composed by: " + Message.GetType().Name, ConsoleColor.Yellow, Misc.LogLevel.Debug);
             if (Connection.IsAvailable)
                 Connection.Send(Message.ToString());
             else

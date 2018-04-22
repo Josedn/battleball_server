@@ -11,19 +11,28 @@ namespace BattleBall.Core.Items
             Items = new Dictionary<int, BaseItem>();
         }
 
-        public BaseItem AddItem(ItemType type, int baseId, int x, int y, double z, string itemName, int states, bool stackable, bool walkable, bool isSeat, List<int> directions)
+        public BaseItem AddRoomItem(int id, int baseId, int x, int y, double z, string itemName, int states, bool stackable, bool walkable, bool isSeat, List<int> directions)
         {
-            if (!Items.ContainsKey(baseId))
+            if (!Items.ContainsKey(id))
             {
-                Items[baseId] = new BaseItem(type, baseId, x, y, z, itemName, states, stackable, walkable, isSeat, directions);
+                Items[id] = new BaseItem(id, ItemType.RoomItem, baseId, x, y, z, itemName, states, stackable, walkable, isSeat, directions);
             }
-            return Items[baseId];
+            return Items[id];
         }
 
-        public BaseItem GetItem(int itemId)
+        public BaseItem AddWallItem(int id, int baseId, string itemName, int states)
         {
-            if (Items.ContainsKey(itemId))
-                return Items[itemId];
+            if (!Items.ContainsKey(id))
+            {
+                Items[id] = new BaseItem(id, ItemType.WallItem, baseId, 0, 0, 0, itemName, states, false, false, false, new List<int>() { 2, 4 });
+            }
+            return Items[id];
+        }
+
+        public BaseItem GetItem(int id)
+        {
+            if (Items.ContainsKey(id))
+                return Items[id];
             return null;
         }
 

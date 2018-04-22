@@ -44,7 +44,7 @@ namespace BattleBall.Core.GameClients
             RequestHandlers[ClientOpCodes.REQUEST_LOOK_AT] = new RequestLookAt();
             RequestHandlers[ClientOpCodes.REQUEST_WAVE] = new RequestWave();
             RequestHandlers[ClientOpCodes.REQUEST_ROOM_DATA] = new RequestRoomData();
-            RequestHandlers[ClientOpCodes.REQUEST_FURNI_INTERACT] = new RequestFurniInteract();
+            RequestHandlers[ClientOpCodes.REQUEST_ITEM_INTERACT] = new RequestFurniInteract();
         }
     }
 }

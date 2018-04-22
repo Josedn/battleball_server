@@ -4,30 +4,29 @@ using System.Collections.Generic;
 
 namespace BattleBall.Communication.Outgoing.Rooms
 {
-    class SerializeRoomItemComposer : ServerMessage
+    class SerializeWallItemComposer : ServerMessage
     {
-        public SerializeRoomItemComposer(RoomItem item) : base(ServerOpCodes.ROOM_ITEM_DATA)
+        public SerializeWallItemComposer(WallItem item) : base(ServerOpCodes.WALL_ITEM_DATA)
         {
-            CreateMessage(new List<RoomItem>
+            CreateMessage(new List<WallItem>
             {
                 item
             });
         }
 
-        public SerializeRoomItemComposer(ICollection<RoomItem> item) : base(ServerOpCodes.ROOM_ITEM_DATA)
+        public SerializeWallItemComposer(ICollection<WallItem> item) : base(ServerOpCodes.WALL_ITEM_DATA)
         {
             CreateMessage(item);
         }
 
-        private void CreateMessage(ICollection<RoomItem> items)
+        private void CreateMessage(ICollection<WallItem> items)
         {
             AppendInt(items.Count);
-            foreach (RoomItem item in items)
+            foreach (WallItem item in items)
             {
                 AppendInt(item.ItemId);
                 AppendInt(item.X);
                 AppendInt(item.Y);
-                AppendFloat(item.Z);
                 AppendInt(item.Rot);
                 AppendInt(item.BaseItem.BaseId);
                 AppendInt(item.State);

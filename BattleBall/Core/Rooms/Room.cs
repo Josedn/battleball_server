@@ -48,6 +48,7 @@ namespace BattleBall.Core.Rooms
             Players.Add(User.UserId, User); //Add new room user to users list
             Session.SendMessage(new SerializeRoomUserComposer(Players.Values)); //Send all players in room to user
             Session.SendMessage(new SerializeRoomItemComposer(RoomItemManager.RoomItems.Values)); //Send all furni in room to user
+            Session.SendMessage(new SerializeWallItemComposer(RoomItemManager.WallItems.Values)); //Send all furni in room to user
         }
 
         internal void SendModelToPlayer(GameClient Session)

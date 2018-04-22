@@ -4,6 +4,7 @@ namespace BattleBall.Core.Items
 {
     class BaseItem
     {
+        internal int Id;
         internal ItemType Type;
         internal int BaseId;
         internal int X;
@@ -16,8 +17,9 @@ namespace BattleBall.Core.Items
         internal bool IsSeat;
         internal List<int> Directions;
 
-        public BaseItem(ItemType type, int baseId, int x, int y, double z, string itemName, int states, bool stackable, bool walkable, bool isSeat, List<int> directions)
+        public BaseItem(int id, ItemType type, int baseId, int x, int y, double z, string itemName, int states, bool stackable, bool walkable, bool isSeat, List<int> directions)
         {
+            Id = id;
             Type = type;
             BaseId = baseId;
             X = x;

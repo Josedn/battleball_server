@@ -10,19 +10,29 @@ namespace BattleBall.Core.Rooms.Items
     class RoomItemManager
     {
         internal Dictionary<int, RoomItem> RoomItems;
+        internal Dictionary<int, WallItem> WallItems;
         private Room Room;
 
         public RoomItemManager(Room room)
         {
             Room = room;
             RoomItems = new Dictionary<int, RoomItem>();
+            WallItems = new Dictionary<int, WallItem>();
         }
 
         internal void AddRoomItemToRoom(int itemId, int x, int y, double z, int rot, BaseItem baseItem)
         {
-            if (!RoomItems.ContainsKey(itemId))
+            if (GetItem(itemId) == null)
             {
                 RoomItems[itemId] = new RoomItem(itemId, x, y, z, rot, Room, baseItem);
+            }
+        }
+
+        internal void AddWallItemToRoom(int itemId, int x, int y, int rot, BaseItem baseItem)
+        {
+            if (GetItem(itemId) == null)
+            {
+                WallItems[itemId] = new WallItem(itemId, x, y, rot, Room, baseItem);
             }
         }
 
@@ -30,6 +40,8 @@ namespace BattleBall.Core.Rooms.Items
         {
             if (RoomItems.ContainsKey(itemId))
                 return RoomItems[itemId];
+            if (WallItems.ContainsKey(itemId))
+                return WallItems[itemId];
             return null;
         }
 

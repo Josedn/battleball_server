@@ -9,8 +9,9 @@
         public const int CHAT = 10;
         public const int PLAYER_REMOVE = 11;
         public const int PLAYER_WAVE = 14;
-        public const int FURNI_DATA = 16;
-        public const int FURNI_REMOVE = 17;
-        public const int FURNI_STATE = 19;
+        public const int ROOM_ITEM_DATA = 16;
+        public const int ITEM_REMOVE = 17;
+        public const int ITEM_STATE = 19;
+        public const int WALL_ITEM_DATA = 20;
     }
 }
