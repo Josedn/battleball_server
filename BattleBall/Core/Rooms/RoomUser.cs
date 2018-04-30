@@ -15,6 +15,7 @@ namespace BattleBall.Core.Rooms
 		internal int TargetX, TargetY;
 		internal bool IsMoving;
 		internal bool PathRecalcNeeded;
+        internal Dictionary<string, string> Statusses;
 
         public Room Room { get; }
         public LinkedList<Point> Path { get; set; }
@@ -38,6 +39,7 @@ namespace BattleBall.Core.Rooms
             this.Path = new LinkedList<Point>();
             this.User = user;
             this.Room = room;
+            this.Statusses = new Dictionary<string, string>();
         }
         #endregion
 

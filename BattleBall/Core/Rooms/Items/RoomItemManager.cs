@@ -20,19 +20,19 @@ namespace BattleBall.Core.Rooms.Items
             WallItems = new Dictionary<int, WallItem>();
         }
 
-        internal void AddRoomItemToRoom(int itemId, int x, int y, double z, int rot, BaseItem baseItem)
+        internal void AddRoomItemToRoom(int itemId, int x, int y, double z, int rot, int state, BaseItem baseItem)
         {
             if (GetItem(itemId) == null)
             {
-                RoomItems[itemId] = new RoomItem(itemId, x, y, z, rot, Room, baseItem);
+                RoomItems[itemId] = new RoomItem(itemId, x, y, z, rot, state, Room, baseItem);
             }
         }
 
-        internal void AddWallItemToRoom(int itemId, int x, int y, int rot, BaseItem baseItem)
+        internal void AddWallItemToRoom(int itemId, int x, int y, int rot, int state, BaseItem baseItem)
         {
             if (GetItem(itemId) == null)
             {
-                WallItems[itemId] = new WallItem(itemId, x, y, rot, Room, baseItem);
+                WallItems[itemId] = new WallItem(itemId, x, y, rot, state, Room, baseItem);
             }
         }
 

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
 using BattleBall.AStar.Algorithm;
-
+using System.Linq;
 using BattleBall.Core.GameClients;
 using BattleBall.Communication.Protocol;
 using BattleBall.Communication.Outgoing.Rooms;
@@ -41,14 +41,14 @@ namespace BattleBall.Core.Rooms
 
         internal void AddPlayerToRoom(GameClient Session)
         {
-            RoomUser User = new RoomUser(Session.User.Id, Model.DoorX, Model.DoorY, Model.DoorZ, Model.DoorRot, Session.User, this);
+            RoomUser User = new RoomUser(Session.User.Id, Model.DoorX, Model.DoorY, Model.DoorZ + 0.1, Model.DoorRot, Session.User, this);
             Session.User.CurrentRoom = this;
             
             SendMessage(new SerializeRoomUserComposer(User)); //Send new room user data to room
             Players.Add(User.UserId, User); //Add new room user to users list
-            Session.SendMessage(new SerializeRoomUserComposer(Players.Values)); //Send all players in room to user
             Session.SendMessage(new SerializeRoomItemComposer(RoomItemManager.RoomItems.Values)); //Send all furni in room to user
             Session.SendMessage(new SerializeWallItemComposer(RoomItemManager.WallItems.Values)); //Send all furni in room to user
+            Session.SendMessage(new SerializeRoomUserComposer(Players.Values)); //Send all players in room to user
         }
 
         internal void SendModelToPlayer(GameClient Session)
@@ -130,7 +130,13 @@ namespace BattleBall.Core.Rooms
         }
         internal void OnCycle()
         {
-            foreach (RoomUser player in Players.Values)
+            List<RoomUser> currentPlayers;
+            lock (Players.Values)
+            {
+                currentPlayers = Players.Values.ToList();
+            }
+
+            foreach (RoomUser player in currentPlayers)
             {
                 if (player.PathRecalcNeeded)
                 {
@@ -218,7 +224,7 @@ namespace BattleBall.Core.Rooms
             List<RoomUser> playersToSend;
             lock (Players.Values)
             {
-                playersToSend = new List<RoomUser>(Players.Values);
+                playersToSend = Players.Values.ToList();
             }
 
             foreach (RoomUser user in playersToSend)

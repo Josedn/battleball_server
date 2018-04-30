@@ -7,7 +7,7 @@
         public int TSize = 64;
         public int DoorX = 0;
         public int DoorY = 4;
-        public int DoorZ = 0;
+        public double DoorZ = 0.0;
         public int DoorRot = 2;
         public int[,] Map;
 

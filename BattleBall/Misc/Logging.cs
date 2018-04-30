@@ -39,7 +39,7 @@ namespace BattleBall.Misc
 
         public static void WriteLine(object o, LogLevel logLevel)
         {
-            WriteLine(o, ConsoleColor.Gray, LogLevel);
+            WriteLine(o, ConsoleColor.Gray, logLevel);
         }
     }
 }

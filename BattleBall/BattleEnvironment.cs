@@ -11,9 +11,15 @@ namespace BattleBall
         public static void Initialize()
         {
             Game = new Game();
-
+            Console.WriteLine(@"");
+            Console.WriteLine(@"|         |    |          o     ");
+            Console.WriteLine(@"|---.,---.|---.|---.,---. .,---.");
+            Console.WriteLine(@"|   ||   ||   ||   |,---| ||   |");
+            Console.WriteLine(@"`---'`---'`---'`---'`---^o``---'");
+            Console.WriteLine(@"Copyright (c) 2018 - jetx");
+            Console.WriteLine();
             Logging.WriteLine("The environment has initialized successfully. Ready for connections.", ConsoleColor.Green, LogLevel.Info);
-            Logging.SetLogLevel(LogLevel.Verbose);
+            Logging.SetLogLevel(LogLevel.Warning);
 
             string command;
             while (true)

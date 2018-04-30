@@ -20,7 +20,7 @@ namespace BattleBall.Core.Rooms.Items
         internal RoomItemInteractor Interactor;
         private List<Point> coords;
 
-        public RoomItem(int itemId, int x, int y, double z, int rot, Room room, BaseItem baseItem)
+        public RoomItem(int itemId, int x, int y, double z, int rot, int state, Room room, BaseItem baseItem)
         {
             ItemId = itemId;
             X = x;
@@ -29,7 +29,7 @@ namespace BattleBall.Core.Rooms.Items
             Z = z;
             Room = room;
             BaseItem = baseItem;
-            State = 0;
+            State = state;
             NeedsUpdate = false;
             if (BaseItem.States > 1)
                 Interactor = new InteractorGeneric(this);

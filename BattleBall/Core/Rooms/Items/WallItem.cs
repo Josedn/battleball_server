@@ -9,7 +9,7 @@ namespace BattleBall.Core.Rooms.Items
 {
     class WallItem : RoomItem
     {
-        public WallItem(int itemId, int x, int y, int rot, Room room, BaseItem baseItem) : base(itemId, x, y, 0, rot, room, baseItem)
+        public WallItem(int itemId, int x, int y, int rot, int state, Room room, BaseItem baseItem) : base(itemId, x, y, 0, rot, state, room, baseItem)
         {
 
         }
