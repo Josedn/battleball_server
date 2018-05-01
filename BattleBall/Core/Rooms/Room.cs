@@ -61,6 +61,7 @@ namespace BattleBall.Core.Rooms
             lock (Players)
             {
                 Session.SendMessage(new SerializeRoomUserComposer(Players.Values.ToList())); //Send all players in room to user
+                Session.SendMessage(SerializeStatusUpdates(Players.Values.ToList(), true));
             }
         }
 

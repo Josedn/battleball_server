@@ -55,7 +55,9 @@ namespace BattleBall.Core
 
             BaseItem lt_jngl_wall = ItemManager.AddWallItem(baseItemId++, 4121, "lt_jngl_wall", 3);
             BaseItem anc_sunset_wall = ItemManager.AddWallItem(baseItemId++, 4462, "anc_sunset_wall", 2);
-            
+
+            BaseItem club_sofa = ItemManager.AddRoomItem(baseItemId++, 267, 2, 1, 0, "club_sofa", 1, false, false, true, new List<int>() { 0, 2, 4, 6 });
+
             double z = 0;
             int itemId = 0;
             int currentX = 0;
@@ -102,8 +104,9 @@ namespace BattleBall.Core
             Room.RoomItemManager.AddRoomItemToRoom(itemId++, 6, 12, z, hween12_cart.Directions[0], 0, hween12_cart);
 
             //
-            Room.RoomItemManager.AddRoomItemToRoom(itemId++, 4, 0, z, hween12_cart.Directions[2], 0, hween12_cart);
-            Room.RoomItemManager.AddRoomItemToRoom(itemId++, 3, 0, z, hween12_cart.Directions[2], 0, hween12_cart);
+            //Room.RoomItemManager.AddRoomItemToRoom(itemId++, 4, 0, z, hween12_cart.Directions[2], 0, hween12_cart);
+            //Room.RoomItemManager.AddRoomItemToRoom(itemId++, 3, 0, z, hween12_cart.Directions[2], 0, hween12_cart);
+            Room.RoomItemManager.AddRoomItemToRoom(itemId++, 3, 1, z, club_sofa.Directions[2], 0, club_sofa);
 
             Room.RoomItemManager.AddRoomItemToRoom(itemId++, 7, 10, z, hween12_track.Directions[0], 0, hween12_track);
             Room.RoomItemManager.AddRoomItemToRoom(itemId++, 7, 9, z, hween12_track.Directions[0], 0, hween12_track);
