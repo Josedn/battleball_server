@@ -13,13 +13,15 @@ namespace BattleBall.Core.Rooms
         internal int X, Y, Rot;
         internal double Z;
 		internal int TargetX, TargetY;
-		internal bool IsMoving;
-		internal bool PathRecalcNeeded;
+        internal int SetX, SetY;
+        internal double SetZ;
+        internal bool IsWalking;
         internal Dictionary<string, string> Statusses;
+        internal SqState CurrentSqState;
 
         public Room Room { get; }
-        public LinkedList<Point> Path { get; set; }
         public bool NeedsUpdate { get; set; }
+        public bool SetStep { get; set; }
 
         internal User User;
         #endregion
@@ -34,16 +36,32 @@ namespace BattleBall.Core.Rooms
             this.Rot = rot;
             this.TargetX = x;
             this.TargetY = y;
-            this.IsMoving = false;
-            this.PathRecalcNeeded = false;
-            this.Path = new LinkedList<Point>();
+            this.SetX = x;
+            this.SetY = y;
+            this.SetZ = z;
+            this.IsWalking = false;
             this.User = user;
             this.Room = room;
             this.Statusses = new Dictionary<string, string>();
+            this.CurrentSqState = SqState.WalkableLast;
+            this.SetStep = false;
         }
         #endregion
 
         #region Methods
+        internal void AddStatus(string key, string value)
+        {
+            Statusses[key] = value;
+        }
+
+        internal void RemoveStatus(string key)
+        {
+            if (Statusses.ContainsKey(key))
+            {
+                Statusses.Remove(key);
+            }
+        }
+
         internal void FurniInteract(int itemId)
         {
             if (Room != null)
@@ -57,7 +75,7 @@ namespace BattleBall.Core.Rooms
             RoomUser otherUser = Room.GetRoomUserByUserId(userId);
             if (otherUser != null)
             {
-                Rot = Room.CalculateRotation(X, Y, otherUser.X, otherUser.Y);
+                Rot = GameMap.CalculateRotation(X, Y, otherUser.X, otherUser.Y);
                 NeedsUpdate = true;
             }
         }
@@ -74,7 +92,7 @@ namespace BattleBall.Core.Rooms
             {
                 this.TargetX = x;
                 this.TargetY = y;
-                this.PathRecalcNeeded = true;
+                this.IsWalking = true;
             }
         }
 

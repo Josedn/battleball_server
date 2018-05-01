@@ -35,7 +35,7 @@ namespace BattleBall.Core
             int baseItemId = 0;
             BaseItem lt_patch = ItemManager.AddRoomItem(baseItemId++, 3188, 2, 2, 0, "lt_patch", 3, false, true, false, new List<int>() { 0, 2, 4, 6 });
             BaseItem lt_stone2 = ItemManager.AddRoomItem(baseItemId++, 3177, 2, 1, 1.05, "lt_stone2", 3, true, false, false, new List<int>() { 0, 2 });
-            BaseItem lt_gate = ItemManager.AddRoomItem(baseItemId++, 3172, 2, 1, 1.05, "lt_gate", 2, false, true, false, new List<int>() { 0, 2, 4, 6 });
+            BaseItem lt_gate = ItemManager.AddRoomItem(baseItemId++, 3172, 2, 1, 0.01, "lt_gate", 2, false, true, false, new List<int>() { 0, 2, 4, 6 });
             BaseItem scifidoor_4 = ItemManager.AddRoomItem(baseItemId++, 1575, 1, 1, 0, "scifidoor*4", 2, false, true, false, new List<int>() { 2, 4 });
             BaseItem hween12_scarecrow = ItemManager.AddRoomItem(baseItemId++, 4733, 1, 1, 0, "hween12_scarecrow", 2, false, false, false, new List<int>() { 0, 2, 4, 6 });
             BaseItem rare_icecream_2 = ItemManager.AddRoomItem(baseItemId++, 1632, 1, 1, 0, "rare_icecream*2", 2, false, false, false, new List<int>() { 2, 4 });
@@ -55,9 +55,7 @@ namespace BattleBall.Core
 
             BaseItem lt_jngl_wall = ItemManager.AddWallItem(baseItemId++, 4121, "lt_jngl_wall", 3);
             BaseItem anc_sunset_wall = ItemManager.AddWallItem(baseItemId++, 4462, "anc_sunset_wall", 2);
-
-
-
+            
             double z = 0;
             int itemId = 0;
             int currentX = 0;
@@ -76,7 +74,7 @@ namespace BattleBall.Core
                 Room.RoomItemManager.AddRoomItemToRoom(itemId++, 1 + (i * 2), 11, z, lt_patch.Directions[0], 1, lt_patch);
             }
             z = 0.1;
-            Room.RoomItemManager.AddRoomItemToRoom(itemId++, 2, 12, z, scifidoor_4.Directions[0], 0, scifidoor_4);
+            Room.RoomItemManager.AddRoomItemToRoom(itemId++, 2, 12, z, scifidoor_4.Directions[0], 1, scifidoor_4);
             Room.RoomItemManager.AddRoomItemToRoom(itemId++, 2, 10, z, lt_stone2.Directions[1], 0, lt_stone2);
             Room.RoomItemManager.AddRoomItemToRoom(itemId++, 2, 8, z, lt_stone2.Directions[1], 0, lt_stone2);
             Room.RoomItemManager.AddRoomItemToRoom(itemId++, 2, 6, z, lt_stone2.Directions[1], 0, lt_stone2);
@@ -166,7 +164,6 @@ namespace BattleBall.Core
             Room.RoomItemManager.AddWallItemToRoom(itemId++, 110, 5, 4, 1, anc_sunset_wall);
             Room.RoomItemManager.AddWallItemToRoom(itemId++, 195, 40, 4, 1, anc_sunset_wall);
             Room.RoomItemManager.AddWallItemToRoom(itemId++, 280, 75, 4, 1, anc_sunset_wall);
-
 
             //Room.RoomItemManager.AddRoomItemToRoom(itemId++, 3, 5, -0.3, hween12_track_crr.Directions[1], 0, hween12_track_crr);
             //Room.RoomItemManager.AddRoomItemToRoom(itemId++, 3, 11, -0.3, hween12_track_crl.Directions[1], 0, hween12_track_crl);

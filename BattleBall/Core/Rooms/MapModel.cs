@@ -2,8 +2,8 @@
 {
     class MapModel
     {
-        public int Cols = 9;
-        public int Rows = 13;
+        public int MaxX = 9;
+        public int MaxY = 13;
         public int TSize = 64;
         public int DoorX = 0;
         public int DoorY = 4;
@@ -13,10 +13,10 @@
 
         public MapModel()
         {
-            Map = new int[Cols, Rows];
-            for (int i = 1; i < Cols; i++)
+            Map = new int[MaxX, MaxY];
+            for (int i = 1; i < MaxX; i++)
             {
-                for (int j = 0; j < Rows; j++)
+                for (int j = 0; j < MaxY; j++)
                 {
                     Map[i, j] = 1;
                 }

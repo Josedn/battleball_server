@@ -7,14 +7,14 @@ namespace BattleBall.Communication.Outgoing.Rooms
     {
         public MapComposer(MapModel model) : base(ServerOpCodes.MAP_DATA)
         {
-            AppendInt(model.Cols);
-            AppendInt(model.Rows);
+            AppendInt(model.MaxX);
+            AppendInt(model.MaxY);
             AppendInt(model.DoorX);
             AppendInt(model.DoorY);
 
-            for (int i = 0; i < model.Cols; i++)
+            for (int i = 0; i < model.MaxX; i++)
             {
-                for (int j = 0; j < model.Rows; j++)
+                for (int j = 0; j < model.MaxY; j++)
                 {
                     AppendInt(model.Map[i, j]);
                 }

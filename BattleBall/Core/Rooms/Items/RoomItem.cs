@@ -4,6 +4,7 @@ using System.Drawing;
 using BattleBall.Communication.Outgoing.Rooms;
 using BattleBall.Communication.Protocol;
 using BattleBall.Core.Items;
+using BattleBall.Misc;
 
 namespace BattleBall.Core.Rooms.Items
 {
@@ -19,6 +20,14 @@ namespace BattleBall.Core.Rooms.Items
         internal BaseItem BaseItem;
         internal RoomItemInteractor Interactor;
         private List<Point> coords;
+        
+        public double TotalHeight
+        {
+            get
+            {
+                return BaseItem.Z + Z;
+            }
+        }
 
         public RoomItem(int itemId, int x, int y, double z, int rot, int state, Room room, BaseItem baseItem)
         {
@@ -55,6 +64,18 @@ namespace BattleBall.Core.Rooms.Items
             NeedsUpdate = true;
             ServerMessage updateMessage = new FurniStateComposer(ItemId, State);
             Room.SendMessage(updateMessage);
+        }
+
+        internal void OnUserWalk(RoomUser user)
+        {
+            if (BaseItem.IsSeat)
+            {
+                user.AddStatus("sit", TextHandling.GetString(TotalHeight));
+                user.Z = Z;
+                user.Rot = Rot;
+
+                user.NeedsUpdate = true;
+            }
         }
     }
 }

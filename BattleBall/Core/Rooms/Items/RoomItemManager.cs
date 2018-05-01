@@ -25,6 +25,7 @@ namespace BattleBall.Core.Rooms.Items
             if (GetItem(itemId) == null)
             {
                 RoomItems[itemId] = new RoomItem(itemId, x, y, z, rot, state, Room, baseItem);
+                Room.GameMap.AddItemToMap(RoomItems[itemId]);
             }
         }
 

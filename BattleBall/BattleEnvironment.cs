@@ -34,27 +34,40 @@ namespace BattleBall
                             Logging.WriteLine("Stopping server...", ConsoleColor.Yellow, LogLevel.Info);
                             return;
                         }
+                    case "map":
+                        {
+                            Core.Rooms.SqState[,] map = Game.Room.GameMap.Map;
+                            for (int i = 0; i < Game.Room.GameMap.MapModel.MaxY; i++)
+                            {
+                                for (int j = 0; j < Game.Room.GameMap.MapModel.MaxX; j++)
+                                {
+                                    Console.Write((int)map[j, i] + "\t| ");
+                                }
+                                Console.WriteLine();
+                            }
+                            break;
+                        }
+                    case "generatemaps":
+                        {
+                            Game.Room.GameMap.GenerateMaps();
+                            break;
+                        }
+                    case "heightmap":
+                        {
+                            double[,] map = Game.Room.GameMap.ItemHeightMap;
+                            for (int i = 0; i < Game.Room.GameMap.MapModel.MaxY; i++)
+                            {
+                                for (int j = 0; j < Game.Room.GameMap.MapModel.MaxX; j++)
+                                {
+                                    Console.Write(map[j, i] + "\t| ");
+                                }
+                                Console.WriteLine();
+                            }
+                            break;
+                        }
                     default:
                         {
                             Logging.WriteLine("Invalid command", ConsoleColor.Red, LogLevel.Info);
-                            break;
-                        }
-                    case "move":
-                        {
-                            try
-                            {
-                                int x = int.Parse(args[1]);
-                                int y = int.Parse(args[2]);
-                                Game.Room.MovePlayersTo(x, y);
-                            }
-                            catch (FormatException)
-                            {
-                                Logging.WriteLine("Invalid args", ConsoleColor.Red, LogLevel.Info);
-                            }
-                            catch (Exception)
-                            {
-                                
-                            }
                             break;
                         }
                     case "status":
