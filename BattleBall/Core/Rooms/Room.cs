@@ -15,9 +15,6 @@ namespace BattleBall.Core.Rooms
     class Room
     {
         #region Fields
-        private int[,] PlayerMatrix;
-        //private int[,] GameMatrix;
-
         public MapModel Model { get; }
         public Dictionary<int, RoomUser> Players;
         internal RoomItemManager RoomItemManager;
@@ -29,7 +26,6 @@ namespace BattleBall.Core.Rooms
         public Room(MapModel model)
         {
             this.Model = model;
-            this.PlayerMatrix = new int[Model.MaxX, Model.MaxY];
             this.Players = new Dictionary<int, RoomUser>();
             this.RoomItemManager = new RoomItemManager(this);
             this.GameMap = new GameMap(this, Model);
@@ -79,8 +75,8 @@ namespace BattleBall.Core.Rooms
             {
                 return;
             }
-            PlayerMatrix[user.X, user.Y] = 0;
-
+            GameMap.Map[user.X, user.Y] = user.CurrentSqState;
+            GameMap.RemoveUserFromMap(user, new Point(user.X, user.Y));
             user.User.CurrentRoom = null;
             lock (Players)
             {
@@ -236,90 +232,9 @@ namespace BattleBall.Core.Rooms
             user.NeedsUpdate = true;
         }
 
-        internal void OnCycleOld()
-        {
-            List<RoomUser> currentPlayers;
-            lock (Players.Values)
-            {
-                currentPlayers = Players.Values.ToList();
-            }
-
-            foreach (RoomUser player in currentPlayers)
-            {
-                //if (player.PathRecalcNeeded)
-                //{
-                //    //Console.WriteLine(player.UserId + "'s needs recalc...");
-                //    Point start = new Point(player.X, player.Y);
-                //    Point end = new Point(player.TargetX, player.TargetY);
-                //    LinkedList<AStarSolver<Room>.PathNode> path = astarSolver.Search(end, start);
-
-                //    player.Path.Clear();
-
-                //    if (path != null)
-                //    {
-                //        path.RemoveFirst();
-                //        foreach (AStarSolver<Room>.PathNode node in path)
-                //        {
-                //            player.Path.AddLast(new Point(node.X, node.Y));
-                //        }
-                //    }
-                //    else
-                //    {
-                //        player.PathRecalcNeeded = false;
-                //        player.IsMoving = false;
-                //    }
-                //    player.PathRecalcNeeded = false;
-                //    player.IsMoving = true;
-                //}
-
-                //if (player.NeedsUpdate)
-                //{
-                //    SendMessage(new SerializeRoomUserComposer(player)); //Send new room user data to room
-                //    player.NeedsUpdate = false;
-                //}
-
-                //if (player.IsMoving)
-                //{
-                //    //Console.WriteLine(player.UserId + "'s is moving...");
-                //    if (player.Path.Count > 1)
-                //    {
-                //        //TODO: Check if player is candidate tile is valid
-
-                //        OnPlayerWalksOffTile(player, player.X, player.Y);
-
-                //        player.Rot = CalculateRotation(player.X, player.Y, player.Path.First.Value.X, player.Path.First.Value.Y);
-
-                //        player.X = player.Path.First.Value.X;
-                //        player.Y = player.Path.First.Value.Y;
-
-                //        PlayerMatrix[player.X, player.Y] = player.UserId;
-                //        player.Path.RemoveFirst();
-                //        if (player.TargetX == player.X && player.TargetY == player.Y)
-                //        {
-                //            player.IsMoving = false;
-                //        }
-
-                //        OnPlayerWalksOnTile(player, player.X, player.Y);
-
-                //        SendMessage(new PlayerMovementComposer(player.UserId, player.X, player.Y, player.Rot));
-                //    }
-                //    else
-                //    {
-                //        player.IsMoving = false;
-                //    }
-                //}
-            }
-        }
-
         internal bool ValidTile(int x, int y)
         {
             return x >= 0 && y >= 0 && x < Model.MaxX && y < Model.MaxY && Model.Map[x, y] != 0;
-        }
-
-        internal void OnPlayerWalksOnTile(RoomUser player, int x, int y)
-        {
-            //GameMatrix[x, y] = (int)player.Team;
-            PlayerMatrix[x, y] = player.UserId;
         }
 
         internal void SendMessage(ServerMessage Message)
@@ -341,7 +256,7 @@ namespace BattleBall.Core.Rooms
 
         internal void OnPlayerWalksOffTile(RoomUser player, int x, int y)
         {
-            PlayerMatrix[player.X, player.Y] = 0;
+            
         }
         #endregion
     }

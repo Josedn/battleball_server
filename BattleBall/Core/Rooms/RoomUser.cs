@@ -73,7 +73,7 @@ namespace BattleBall.Core.Rooms
         internal void LookAt(int userId)
         {
             RoomUser otherUser = Room.GetRoomUserByUserId(userId);
-            if (otherUser != null)
+            if (otherUser != null && otherUser != this && !Statusses.ContainsKey("sit"))
             {
                 Rot = GameMap.CalculateRotation(X, Y, otherUser.X, otherUser.Y);
                 NeedsUpdate = true;

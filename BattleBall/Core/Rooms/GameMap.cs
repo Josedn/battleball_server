@@ -144,7 +144,7 @@ namespace BattleBall.Core.Rooms
             AddUserToMap(user, newCoord);
         }
 
-        private void RemoveUserFromMap(RoomUser user, Point coord)
+        public void RemoveUserFromMap(RoomUser user, Point coord)
         {
             if (CoordinatedUsers.ContainsKey(coord))
                 CoordinatedUsers[coord].Remove(user);
@@ -173,10 +173,12 @@ namespace BattleBall.Core.Rooms
         internal List<RoomItem> GetCoordinatedHeighestItems(int x, int y)
         {
             Point coord = new Point(x, y);
-            List<RoomItem> items = CoordinatedItems[coord];
-            if (items == null)
+
+            if (!CoordinatedItems.ContainsKey(coord))
                 return new List<RoomItem>();
 
+            List<RoomItem> items = CoordinatedItems[coord];
+                
             if (items.Count == 1)
                 return items.ToList();
             List<RoomItem> returnItems = new List<RoomItem>();
