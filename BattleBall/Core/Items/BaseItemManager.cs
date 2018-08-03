@@ -36,6 +36,18 @@ namespace BattleBall.Core.Items
             return null;
         }
 
+        public BaseItem FindItem(string itemName)
+        {
+            foreach (BaseItem item in Items.Values)
+            {
+                if (itemName.ToLower() == item.ItemName.ToLower())
+                {
+                    return item;
+                }
+            }
+            return null;
+        }
+
 
     }
 }

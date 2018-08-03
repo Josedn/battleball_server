@@ -34,8 +34,6 @@ namespace BattleBall.Core.Rooms
         #endregion
 
         #region Methods
-
-
         internal void AddPlayerToRoom(GameClient Session)
         {
             RoomUser User = new RoomUser(Session.User.Id, Model.DoorX, Model.DoorY, Model.DoorZ + 0.1, Model.DoorRot, Session.User, this);

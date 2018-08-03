@@ -98,6 +98,10 @@ namespace BattleBall.Core.Rooms
 
         internal void Chat(string message)
         {
+            if ((message.StartsWith(":") || message.StartsWith("/")) && SimpleChatCommandHandler.Parse(this, message.Substring(1)))
+            {
+                return;
+            }
             if (message.ToLower().Contains("o/"))
                 Wave();
             Room.SendMessage(new ChatComposer(UserId, message));

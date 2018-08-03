@@ -66,6 +66,7 @@
     <Compile Include="Core\Items\BaseItem.cs" />
     <Compile Include="Core\Items\BaseItemManager.cs" />
     <Compile Include="Core\Items\ItemType.cs" />
+    <Compile Include="Core\Rooms\SimpleChatCommandHandler.cs" />
     <Compile Include="Core\Rooms\GameMap.cs" />
     <Compile Include="Core\Rooms\Items\InteractorGeneric.cs" />
     <Compile Include="Core\Rooms\Items\InteractorNone.cs" />

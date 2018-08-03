@@ -19,7 +19,7 @@ namespace BattleBall
             Console.WriteLine(@"Copyright (c) 2018 - jetx");
             Console.WriteLine();
             Logging.WriteLine("The environment has initialized successfully. Ready for connections.", ConsoleColor.Green, LogLevel.Info);
-            Logging.SetLogLevel(LogLevel.Warning);
+            Logging.SetLogLevel(LogLevel.Verbose);
 
             string command;
             while (true)

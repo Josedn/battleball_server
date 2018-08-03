@@ -97,7 +97,7 @@ namespace BattleBall.Core.Rooms
             }
         }
 
-        private void RemoveItemFromMap(RoomItem item)
+        internal void RemoveItemFromMap(RoomItem item)
         {
             Dictionary<Point, List<RoomItem>> otherItems = new Dictionary<Point, List<RoomItem>>();
             foreach (Point coord in item.Coords)

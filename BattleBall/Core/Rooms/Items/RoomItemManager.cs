@@ -1,4 +1,5 @@
-﻿using BattleBall.Core.Items;
+﻿using BattleBall.Communication.Outgoing.Rooms;
+using BattleBall.Core.Items;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,6 +27,43 @@ namespace BattleBall.Core.Rooms.Items
             {
                 RoomItems[itemId] = new RoomItem(itemId, x, y, z, rot, state, Room, baseItem);
                 Room.GameMap.AddItemToMap(RoomItems[itemId]);
+                Room.SendMessage(new SerializeRoomItemComposer(RoomItems[itemId]));
+            }
+        }
+
+        internal void RemoveItem(int itemId)
+        {
+            RoomItem item = GetItem(itemId);
+            if (item != null)
+            {
+                if (RoomItems.ContainsKey(itemId))
+                {
+                    RoomItems.Remove(itemId);
+                    Room.GameMap.RemoveItemFromMap(item);
+                }
+                if (WallItems.ContainsKey(itemId))
+                {
+                    WallItems.Remove(itemId);
+                }
+                Room.SendMessage(new FurniRemoveComposer(itemId));
+            }
+        }
+
+        internal void RemoveAllFurniture()
+        {
+            List<int> items = new List<int>();
+            lock (RoomItems)
+            {
+                items.AddRange(RoomItems.Keys);
+            }
+            lock (WallItems)
+            {
+                items.AddRange(WallItems.Keys);
+            }
+
+            foreach (int itemId in items)
+            {
+                RemoveItem(itemId);
             }
         }
 
