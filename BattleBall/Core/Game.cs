@@ -40,7 +40,7 @@ namespace BattleBall.Core
 
             #region Deep forest
 
-            BaseItem club_sofa = ItemManager.AddRoomItem(baseItemId++, 267, 2, 1, 0, "club_sofa", 1, false, false, true, new List<int>() { 0, 2, 4, 6 });
+            BaseItem club_sofa = ItemManager.AddRoomItem(baseItemId++, 267, 2, 1, 1.0, "club_sofa", 1, false, false, true, new List<int>() { 0, 2, 4, 6 });
             BaseItem lt_patch = ItemManager.AddRoomItem(baseItemId++, 3188, 2, 2, 0.01, "lt_patch", 3, false, true, false, new List<int>() { 0, 2, 4, 6 });
             BaseItem lt_stone2 = ItemManager.AddRoomItem(baseItemId++, 3177, 2, 1, 1.05, "lt_stone2", 3, true, false, false, new List<int>() { 0, 2 });
             BaseItem lt_gate = ItemManager.AddRoomItem(baseItemId++, 3172, 2, 1, 0.01, "lt_gate", 2, false, true, false, new List<int>() { 0, 2, 4, 6 });
@@ -48,8 +48,8 @@ namespace BattleBall.Core
             BaseItem hween12_scarecrow = ItemManager.AddRoomItem(baseItemId++, 4733, 1, 1, 0, "hween12_scarecrow", 2, false, false, false, new List<int>() { 0, 2, 4, 6 });
             BaseItem rare_icecream_2 = ItemManager.AddRoomItem(baseItemId++, 1632, 1, 1, 0, "rare_icecream*2", 2, false, false, false, new List<int>() { 2, 4 });
             BaseItem rare_dragon_5 = ItemManager.AddRoomItem(baseItemId++, 1621, 1, 1, 0, "rare_dragonlamp*5", 2, false, false, false, new List<int>() { 2, 4 });
-            BaseItem hween12_cart = ItemManager.AddRoomItem(baseItemId++, 4729, 1, 1, 0, "hween12_cart", 2, false, false, true, new List<int>() { 0, 2, 4, 6 });
-            BaseItem small_chair_armas = ItemManager.AddRoomItem(baseItemId++, 55, 1, 1, 0, "small_chair_armas", 1, false, false, true, new List<int>() { 0, 2, 4, 6 });
+            BaseItem hween12_cart = ItemManager.AddRoomItem(baseItemId++, 4729, 1, 1, 1.0, "hween12_cart", 2, false, false, true, new List<int>() { 0, 2, 4, 6 });
+            BaseItem small_chair_armas = ItemManager.AddRoomItem(baseItemId++, 55, 1, 1, 1.0, "small_chair_armas", 1, false, false, true, new List<int>() { 0, 2, 4, 6 });
             BaseItem hween12_track = ItemManager.AddRoomItem(baseItemId++, 4731, 1, 1, 0.25, "hween12_track", 3, true, true, false, new List<int>() { 0, 2, 4, 6 });
             BaseItem hween12_track_crl = ItemManager.AddRoomItem(baseItemId++, 4736, 1, 1, 0.25, "hween12_track_crl", 3, true, true, false, new List<int>() { 0, 2, 4, 6 });
             BaseItem hween12_track_crr = ItemManager.AddRoomItem(baseItemId++, 4739, 1, 1, 0.25, "hween12_track_crr", 3, true, true, false, new List<int>() { 0, 2, 4, 6 });

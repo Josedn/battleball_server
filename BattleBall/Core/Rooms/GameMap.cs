@@ -1,4 +1,5 @@
 ﻿using BattleBall.Core.Rooms.Items;
+using BattleBall.Misc;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -82,6 +83,12 @@ namespace BattleBall.Core.Rooms
                 {
                     Map[coord.X, coord.Y] = SqState.Closed;
                 }
+                List<RoomUser> usersOnSquare = GetRoomUsersForSquare(coord.X, coord.Y);
+                foreach (RoomUser user in usersOnSquare)
+                {
+                    user.CurrentSqState = Map[coord.X, coord.Y];
+                    Map[coord.X, coord.Y] = SqState.Closed;
+                }
             }
         }
 
@@ -100,6 +107,7 @@ namespace BattleBall.Core.Rooms
         internal void RemoveItemFromMap(RoomItem item)
         {
             Dictionary<Point, List<RoomItem>> otherItems = new Dictionary<Point, List<RoomItem>>();
+
             foreach (Point coord in item.Coords)
             {
                 RemoveCoordinatedItem(item, coord);
@@ -108,6 +116,13 @@ namespace BattleBall.Core.Rooms
                     otherItems.Add(coord, CoordinatedItems[coord]);
                 }
                 SetDefaultValue(coord.X, coord.Y);
+
+                List<RoomUser> usersOnSquare = GetRoomUsersForSquare(coord.X, coord.Y);
+                foreach (RoomUser user in usersOnSquare)
+                {
+                    user.CurrentSqState = Map[coord.X, coord.Y];
+                    Map[coord.X, coord.Y] = SqState.Closed;
+                }
             }
 
             foreach (Point coord in otherItems.Keys)
@@ -115,14 +130,17 @@ namespace BattleBall.Core.Rooms
                 List<RoomItem> itemsToAdd = otherItems[coord];
                 if (itemsToAdd != null)
                 {
-                    ConstructMapForItem(item, coord);
+                    foreach (RoomItem otherItem in itemsToAdd)
+                    {
+                        ConstructMapForItem(otherItem, coord);
+                    }
                 }
             }
         }
 
         private void SetDefaultValue(int x, int y)
         {
-            Map[x, y] = SqState.Closed;
+            Map[x, y] = SqState.Walkable;
             ItemHeightMap[x, y] = 0;
             if (x == MapModel.DoorX && y == MapModel.DoorY)
             {
@@ -259,19 +277,8 @@ namespace BattleBall.Core.Rooms
             {
                 for (int j = 0; j < MapModel.MaxY; j++)
                 {
-                    Map[i, j] = SqState.Walkable;
+                    SetDefaultValue(i, j);
                 }
-            }
-
-            List<RoomItem> roomItems;
-            lock (Room.RoomItemManager.RoomItems)
-            {
-                roomItems = Room.RoomItemManager.RoomItems.Values.ToList();
-            }
-
-            foreach (RoomItem item in roomItems)
-            {
-                AddItemToMap(item);
             }
 
             List<RoomUser> roomUsers;
@@ -284,6 +291,17 @@ namespace BattleBall.Core.Rooms
             {
                 user.CurrentSqState = Map[user.X, user.Y];
                 Map[user.X, user.Y] = SqState.Closed;
+            }
+
+            List<RoomItem> roomItems;
+            lock (Room.RoomItemManager.RoomItems)
+            {
+                roomItems = Room.RoomItemManager.RoomItems.Values.ToList();
+            }
+
+            foreach (RoomItem item in roomItems)
+            {
+                AddItemToMap(item);
             }
 
             Map[MapModel.DoorX, MapModel.DoorY] = SqState.WalkableLast;

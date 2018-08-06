@@ -84,6 +84,23 @@ namespace BattleBall.Core.Rooms
             SendMessage(new PlayerRemoveComposer(session.User.Id));
         }
 
+        internal RoomUser GetRoomUserByName(string username)
+        {
+            List<RoomUser> currentPlayers;
+            lock (Players)
+            {
+                currentPlayers = Players.Values.ToList();
+            }
+            foreach (RoomUser user in currentPlayers)
+            {
+                if (user.User.Username.ToLower() == username.ToLower())
+                {
+                    return user;
+                }
+            }
+            return null;
+        }
+
         internal RoomUser GetRoomUserByUserId(int id)
         {
             lock (Players)
@@ -157,8 +174,29 @@ namespace BattleBall.Core.Rooms
                 SendMessage(statusUpdates);
         }
 
-        private void UpdateUserStatus(RoomUser user)
+        public void UpdateUserStatusses()
         {
+            List<RoomUser> players;
+            lock (Players.Values)
+            {
+                players = Players.Values.ToList();
+            }
+
+            foreach (RoomUser user in players)
+            {
+                UpdateUserStatus(user);
+            }
+        }
+
+        internal void UpdateUserStatus(RoomUser user)
+        {
+            if (user.Statusses.ContainsKey("lay") || user.Statusses.ContainsKey("sit"))
+            {
+                user.Statusses.Remove("lay");
+                user.Statusses.Remove("sit");
+                user.NeedsUpdate = true;
+            }
+
             List<RoomItem> itemsOnSquare = GameMap.GetCoordinatedHeighestItems(user.X, user.Y);
             foreach (RoomItem item in itemsOnSquare)
             {

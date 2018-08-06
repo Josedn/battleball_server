@@ -1,6 +1,8 @@
 ﻿using System;
 using BattleBall.Misc;
 using BattleBall.Core;
+using System.Collections.Generic;
+using BattleBall.Core.Rooms;
 
 namespace BattleBall
 {
@@ -33,6 +35,20 @@ namespace BattleBall
                         {
                             Logging.WriteLine("Stopping server...", ConsoleColor.Yellow, LogLevel.Info);
                             return;
+                        }
+                    case "usermap":
+                        {
+
+                            for (int i = 0; i < Game.Room.GameMap.MapModel.MaxY; i++)
+                            {
+                                for (int j = 0; j < Game.Room.GameMap.MapModel.MaxX; j++)
+                                {
+                                    List<RoomUser> users = Game.Room.GameMap.GetRoomUsersForSquare(j, i);
+                                    Console.Write(users.Count + "\t| ");
+                                }
+                                Console.WriteLine();
+                            }
+                            break;
                         }
                     case "map":
                         {

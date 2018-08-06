@@ -70,7 +70,7 @@ namespace BattleBall.Core.Rooms.Items
         {
             if (BaseItem.IsSeat)
             {
-                user.AddStatus("sit", TextHandling.GetString(TotalHeight));
+                user.AddStatus("sit", TextHandling.GetString(BaseItem.Z));
                 user.Z = Z;
                 user.Rot = Rot;
 

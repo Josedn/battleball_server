@@ -28,6 +28,7 @@ namespace BattleBall.Core.Rooms.Items
                 RoomItems[itemId] = new RoomItem(itemId, x, y, z, rot, state, Room, baseItem);
                 Room.GameMap.AddItemToMap(RoomItems[itemId]);
                 Room.SendMessage(new SerializeRoomItemComposer(RoomItems[itemId]));
+                Room.UpdateUserStatusses();
             }
         }
 
@@ -40,6 +41,7 @@ namespace BattleBall.Core.Rooms.Items
                 {
                     RoomItems.Remove(itemId);
                     Room.GameMap.RemoveItemFromMap(item);
+                    Room.UpdateUserStatusses();
                 }
                 if (WallItems.ContainsKey(itemId))
                 {
